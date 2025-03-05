@@ -3,841 +3,366 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgroSacco - Sustainable Farming and Market Dynamics</title>
-  <style>
-    :root {
-      --primary: #2E7D32;
-      --secondary: #689F38;
-      --accent: #FBC02D;
-      --light: #F1F8E9;
-      --dark: #1B5E20;
-      --text: #333333;
-      --white: #ffffff;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
-      background-color: #f5f5f5;
-      color: var(--text);
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    /* Header Styles */
-    header {
-      background-color: var(--primary);
-      color: var(--white);
-      padding: 15px 0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .logo h1 {
-      font-size: 24px;
-      font-weight: 700;
-    }
-    
-    .logo-icon {
-      width: 40px;
-      height: 40px;
-      background-color: var(--accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .auth-buttons {
-      display: flex;
-      gap: 15px;
-    }
-    
-    .btn {
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: none;
-    }
-    
-    .btn-primary {
-      background-color: var(--accent);
-      color: var(--dark);
-    }
-    
-    .btn-secondary {
-      background-color: transparent;
-      color: var(--white);
-      border: 1px solid var(--white);
-    }
-    
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Navigation */
-    nav {
-      background-color: var(--dark);
-      padding: 10px 0;
-    }
-    
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 25px;
-    }
-    
-    .nav-links a {
-      color: var(--white);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    
-    .nav-links a:hover {
-      color: var(--accent);
-    }
-    
-    .search-bar {
-      display: flex;
-      align-items: center;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 5px 15px;
-    }
-    
-    .search-bar input {
-      background: transparent;
-      border: none;
-      color: var(--white);
-      padding: 5px;
-      outline: none;
-      width: 150px;
-    }
-    
-    .search-bar input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-    
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/400');
-      background-size: cover;
-      background-position: center;
-      color: var(--white);
-      padding: 80px 0;
-      text-align: center;
-    }
-    
-    .hero h2 {
-      font-size: 36px;
-      margin-bottom: 20px;
-    }
-    
-    .hero p {
-      font-size: 18px;
-      margin-bottom: 30px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .hero-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-    }
-    
-    .btn-large {
-      padding: 12px 24px;
-      font-size: 16px;
-    }
-    
-    /* Features Section */
-    .features {
-      padding: 60px 0;
-      background-color: var(--white);
-    }
-    
-    .section-title {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    
-    .section-title h3 {
-      font-size: 28px;
-      color: var(--dark);
-      margin-bottom: 10px;
-    }
-    
-    .section-title p {
-      color: #666;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-    
-    .feature-card {
-      background-color: var(--light);
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-    
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .feature-icon {
-      height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--secondary);
-      color: var(--white);
-      font-size: 40px;
-    }
-    
-    .feature-content {
-      padding: 20px;
-    }
-    
-    .feature-content h4 {
-      font-size: 18px;
-      margin-bottom: 10px;
-      color: var(--dark);
-    }
-    
-    .feature-content p {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 15px;
-    }
-    
-    .feature-link {
-      color: var(--secondary);
-      text-decoration: none;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    /* Dashboard Preview */
-    .dashboard-preview {
-      padding: 60px 0;
-      background-color: #f9f9f9;
-    }
-    
-    .dashboard-container {
-      display: flex;
-      align-items: center;
-      gap: 40px;
-    }
-    
-    .dashboard-content {
-      flex: 1;
-    }
-    
-    .dashboard-content h3 {
-      font-size: 28px;
-      color: var(--dark);
-      margin-bottom: 20px;
-    }
-    
-    .dashboard-content p {
-      margin-bottom: 25px;
-      line-height: 1.6;
-    }
-    
-    .dashboard-stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    
-    .stat-item {
-      background-color: var(--white);
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .stat-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 5px;
-    }
-    
-    .stat-label {
-      color: #666;
-      font-size: 14px;
-    }
-    
-    .dashboard-image {
-      flex: 1;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    
-    .dashboard-image img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    
-    /* Success Stories */
-    .success-stories {
-      padding: 60px 0;
-      background-color: var(--light);
-    }
-    
-    .stories-container {
-      display: flex;
-      gap: 30px;
-      margin-top: 40px;
-      overflow-x: auto;
-      padding-bottom: 20px;
-    }
-    
-    .story-card {
-      min-width: 300px;
-      background-color: var(--white);
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .story-image {
-      height: 180px;
-      background-color: #ddd;
-    }
-    
-    .story-content {
-      padding: 20px;
-    }
-    
-    .story-content h4 {
-      margin-bottom: 10px;
-      color: var(--dark);
-    }
-    
-    .story-content p {
-      color: #666;
-      margin-bottom: 15px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    
-    .member-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .member-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #ddd;
-    }
-    
-    .member-name {
-      font-weight: 600;
-      color: var(--text);
-    }
-    
-    /* CTA Section */
-    .cta-section {
-      padding: 60px 0;
-      background-color: var(--secondary);
-      color: var(--white);
-      text-align: center;
-    }
-    
-    .cta-section h3 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-    
-    .cta-section p {
-      max-width: 700px;
-      margin: 0 auto 30px;
-      line-height: 1.6;
-    }
-    
-    /* Footer */
-    footer {
-      background-color: var(--dark);
-      color: var(--white);
-      padding: 50px 0 20px;
-    }
-    
-    .footer-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 40px;
-      margin-bottom: 40px;
-    }
-    
-    .footer-col h4 {
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
-    
-    .footer-links {
-      list-style: none;
-    }
-    
-    .footer-links li {
-      margin-bottom: 10px;
-    }
-    
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .footer-links a:hover {
-      color: var(--white);
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-    
-    .social-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.3s ease;
-    }
-    
-    .social-icon:hover {
-      background-color: var(--accent);
-    }
-    
-    .footer-bottom {
-      text-align: center;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-      .dashboard-container {
-        flex-direction: column;
-      }
-      
-      .hero h2 {
-        font-size: 30px;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-      
-      .feature-card {
-        max-width: 400px;
-        margin: 0 auto;
-      }
-      
-      .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
+  <title>Agri-Sacco - Sustainable Farming and Market Dynamics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="frontend/ASSETS/css/style.css">
 </head>
 <body>
   <!-- Header -->
-  <header>
-    <div class="container header-top">
+  <header class="header">
+    <div class="container">
       <div class="logo">
-        <div class="logo-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-          </svg>
-        </div>
-        <h1>AgroSacco</h1>
+        <a href="index.html">Agri-Sacco</a>
       </div>
-      <div class="auth-buttons">
-        <button class="btn btn-secondary">Log In</button>
-        <button class="btn btn-primary">Register</button>
-      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="pages/login.html">Login</a></li>
+          <li><a href="pages/register.html" class="btn btn-secondary btn-small">Join Now</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
-  
-  <!-- Navigation -->
-  <nav>
-    <div class="container nav-container">
-      <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Marketplace</a></li>
-        <li><a href="#">Resources</a></li>
-        <li><a href="#">Community</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-      <div class="search-bar">
-        <input type="text" placeholder="Search...">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </div>
-    </div>
-  </nav>
-  
+
   <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <h2>Sustainable Farming and Market Dynamics</h2>
-      <p>A holistic management system designed for agricultural Sacco development, empowering farmers with financial tools and market access</p>
-      <div class="hero-buttons">
-        <button class="btn btn-primary btn-large">Join Our Sacco</button>
-        <button class="btn btn-secondary btn-large">Learn More</button>
+  <section class="hero" style="background-image: url('assets/images/hero-bg.jpg'); background-size: cover; height: 600px; display: flex; align-items: center; color: white; position: relative;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6);"></div>
+    <div class="container" style="position: relative; z-index: 1;">
+      <div style="max-width: 600px;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Sustainable Farming and Market Dynamics</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;">A holistic management system for agricultural Sacco development that connects farmers, resources, and markets.</p>
+        <div style="display: flex; gap: 1rem;">
+          <a href="pages/register.html" class="btn btn-large">Join Our Sacco</a>
+          <a href="#features" class="btn btn-outline btn-large">Learn More</a>
+        </div>
       </div>
     </div>
   </section>
-  
+
+  <!-- About Section -->
+  <section id="about" style="padding: 5rem 0; background-color: #f9f9f9;">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">About Our Agri-Sacco</h2>
+        <p style="max-width: 800px; margin: 0 auto; color: var(--text-light);">
+          We are a community-based Savings and Credit Cooperative dedicated to empowering farmers through financial inclusion and sustainable agricultural practices.
+        </p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-handshake" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Our Mission</h3>
+          <p>To provide affordable financial services to smallholder farmers and connect them to sustainable markets while promoting environmentally friendly farming practices.</p>
+        </div>
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-eye" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Our Vision</h3>
+          <p>To create a thriving agricultural ecosystem where farmers have access to resources, knowledge, and markets to build sustainable livelihoods and communities.</p>
+        </div>
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-seedling" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Our Values</h3>
+          <p>Community cooperation, environmental sustainability, financial inclusion, innovation, transparency, and empowerment of smallholder farmers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" style="padding: 5rem 0;">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Our Services</h2>
+        <p style="max-width: 800px; margin: 0 auto; color: var(--text-light);">
+          We offer a range of financial and agricultural support services designed to help our members thrive.
+        </p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-money-bill-wave" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Savings Solutions</h3>
+          <p>Secure and flexible savings options including goal-based savings programs specifically designed for agricultural needs.</p>
+        </div>
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-hand-holding-usd" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Agricultural Loans</h3>
+          <p>Tailored loan products for seeds, equipment, fertilizers and other farming needs with flexible repayment schedules aligned with harvest cycles.</p>
+        </div>
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-store" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Marketplace Access</h3>
+          <p>Connect directly with buyers and sellers in our marketplace platform to get better prices and reduce middlemen.</p>
+        </div>
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-tractor" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Resource Sharing</h3>
+          <p>Access to shared agricultural tools, machinery, and land through our collaborative resource sharing platform.</p>
+        </div>
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-users" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Community Forum</h3>
+          <p>Share knowledge, ask questions, and learn from other farmers and agricultural experts in our community forum.</p>
+        </div>
+        <div class="card">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-user-graduate" style="font-size: 3rem; color: var(--primary-color);"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-align: center;">Expert Consultations</h3>
+          <p>Book consultations with agricultural experts for personalized advice on farming techniques, crop selection, and pest management.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Features Section -->
-  <section class="features">
+  <section id="features" style="padding: 5rem 0; background-color: #f9f9f9;">
     <div class="container">
-      <div class="section-title">
-        <h3>Comprehensive Sacco Solutions</h3>
-        <p>Our platform offers a complete suite of tools designed specifically for agricultural cooperative societies</p>
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Key Features</h2>
+        <p style="max-width: 800px; margin: 0 auto; color: var(--text-light);">
+          Our Sacco management system comes with a robust set of features designed to support sustainable agricultural development.
+        </p>
       </div>
       
-      <div class="features-grid">
-        <!-- Feature 1 -->
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
-          </div>
-          <div class="feature-content">
-            <h4>Member Management</h4>
-            <p>Streamlined registration, comprehensive profiles, and efficient share capital management</p>
-            <a href="#" class="feature-link">
-              Learn More
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
-              </svg>
-            </a>
-          </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 3rem;">
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Member Management</h3>
+          <ul style="list-style-type: none;">
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Comprehensive member registration and profiles</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Secure account management and authentication</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Share capital tracking and management</span>
+            </li>
+          </ul>
         </div>
         
-        <!-- Feature 2 -->
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-              <line x1="2" y1="10" x2="22" y2="10"></line>
-            </svg>
-          </div>
-          <div class="feature-content">
-            <h4>Savings Management</h4>
-            <p>Dividend processing, mobile money integration, and goal-based savings dashboards</p>
-            <a href="#" class="feature-link">
-              Learn More
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
-              </svg>
-            </a>
-          </div>
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Savings Management</h3>
+          <ul style="list-style-type: none;">
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Goal-based savings for agricultural equipment</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Mobile money integration for easy deposits</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Dividend processing and distribution</span>
+            </li>
+          </ul>
         </div>
         
-        <!-- Feature 3 -->
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="3" y1="9" x2="21" y2="9"></line>
-              <line x1="9" y1="21" x2="9" y2="9"></line>
-            </svg>
-          </div>
-          <div class="feature-content">
-            <h4>Loan Management</h4>
-            <p>Application processing, credit scoring, repayment scheduling, and agricultural-specific loan products</p>
-            <a href="#" class="feature-link">
-              Learn More
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
-              </svg>
-            </a>
-          </div>
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Loan Management</h3>
+          <ul style="list-style-type: none;">
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Agriculture-specific loan products</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Intelligent credit scoring system</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Flexible repayment scheduling</span>
+            </li>
+          </ul>
         </div>
         
-        <!-- Feature 4 -->
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="1" x2="12" y2="23"></line>
-              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-            </svg>
-          </div>
-          <div class="feature-content">
-            <h4>Financial Operations</h4>
-            <p>Transaction processing, account statements, and mobile banking services</p>
-            <a href="#" class="feature-link">
-              Learn More
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
-              </svg>
-            </a>
-          </div>
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Financial Operations</h3>
+          <ul style="list-style-type: none;">
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Real-time transaction processing</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Detailed account statements</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Mobile banking integration</span>
+            </li>
+          </ul>
         </div>
         
-        <!-- Feature 5 -->
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-              <line x1="9" y1="9" x2="9.01" y2="9"></line>
-              <line x1="15" y1="9" x2="15.01" y2="9"></line>
-            </svg>
-          </div>
-          <div class="feature-content">
-            <h4>Agricultural Support</h4>
-            <p>Online marketplace, resource sharing platform, community forums, and expert consultations</p>
-            <a href="#" class="feature-link">
-              Learn More
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
-              </svg>
-            </a>
-          </div>
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Agricultural Support</h3>
+          <ul style="list-style-type: none;">
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Marketplace for agricultural products</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Equipment and land sharing platform</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Community knowledge forum</span>
+            </li>
+          </ul>
         </div>
+        
+        <div style="flex: 1; min-width: 300px;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Communication</h3>
+          <ul style="list-style-type: none;">
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Real-time notifications and alerts</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Success stories sharing</span>
+            </li>
+            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+              <i class="fas fa-check-circle" style="color: var(--primary-color); margin-right: 10px; margin-top: 4px;"></i>
+              <span>Expert consultation booking system</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="text-align: center;">
+        <a href="pages/register.html" class="btn btn-large">Join Our Sacco Today</a>
       </div>
     </div>
   </section>
-  
-  <!-- Dashboard Preview -->
-  <section class="dashboard-preview">
-    <div class="container dashboard-container">
-      <div class="dashboard-content">
-        <h3>Powerful Member Dashboard</h3>
-        <p>Our intuitive dashboard gives members complete visibility and control over their accounts, loans, savings, and agricultural activities.</p>
-        
-        <div class="dashboard-stats">
-          <div class="stat-item">
-            <div class="stat-value">5,000+</div>
-            <div class="stat-label">Active Farmers</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">$2.5M</div>
-            <div class="stat-label">Loans Disbursed</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">12,000+</div>
-            <div class="stat-label">Marketplace Transactions</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">98%</div>
-            <div class="stat-label">Member Satisfaction</div>
-          </div>
-        </div>
-        
-        <button class="btn btn-primary">Try Demo Dashboard</button>
-      </div>
-      
-      <div class="dashboard-image">
-        <img src="/api/placeholder/600/400" alt="Dashboard Preview">
-      </div>
-    </div>
-  </section>
-  
-  <!-- Success Stories -->
-  <section class="success-stories">
+
+  <!-- Testimonials Section -->
+  <section style="padding: 5rem 0;">
     <div class="container">
-      <div class="section-title">
-        <h3>Member Success Stories</h3>
-        <p>Real experiences from our community members who have transformed their agricultural ventures</p>
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Success Stories</h2>
+        <p style="max-width: 800px; margin: 0 auto; color: var(--text-light);">
+          See how our Sacco has helped farmers transform their agricultural practices and improve their livelihoods.
+        </p>
       </div>
-      
-      <div class="stories-container">
-        <!-- Story 1 -->
-        <div class="story-card">
-          <div class="story-image">
-            <img src="/api/placeholder/300/180" alt="Success Story">
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem;">
+        <div class="card" style="flex: 1; min-width: 300px; display: flex; flex-direction: column;">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <img src="assets/images/farmer1.jpg" alt="John Kamau" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
           </div>
-          <div class="story-content">
-            <h4>From Small Farm to Regional Supplier</h4>
-            <p>"With the loan facilities and marketplace access, I was able to expand my farm and connect with larger buyers. My income has tripled in just two years."</p>
-            <div class="member-info">
-              <div class="member-avatar"></div>
-              <div>
-                <div class="member-name">John Kamau</div>
-                <div>Maize Farmer, Nakuru</div>
-              </div>
-            </div>
+          <blockquote style="flex: 1; font-style: italic; margin-bottom: 1.5rem;">
+            "With the agricultural loan I received from Agri-Sacco, I was able to invest in better quality seeds and irrigation equipment. My crop yield has increased by 40% and I've been able to connect with direct buyers through the marketplace."
+          </blockquote>
+          <div style="text-align: center;">
+            <strong>John Kamau</strong><br>
+            <small>Maize Farmer, Nakuru</small>
           </div>
         </div>
-        
-        <!-- Story 2 -->
-        <div class="story-card">
-          <div class="story-image">
-            <img src="/api/placeholder/300/180" alt="Success Story">
+        <div class="card" style="flex: 1; min-width: 300px; display: flex; flex-direction: column;">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <img src="assets/images/farmer2.jpg" alt="Mary Odhiambo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
           </div>
-          <div class="story-content">
-            <h4>Modernizing With Shared Resources</h4>
-            <p>"The resource sharing platform allowed me to access modern equipment that would have been impossible to afford on my own. My productivity has increased by 60%."</p>
-            <div class="member-info">
-              <div class="member-avatar"></div>
-              <div>
-                <div class="member-name">Mary Ochieng</div>
-                <div>Dairy Farmer, Kisumu</div>
-              </div>
-            </div>
+          <blockquote style="flex: 1; font-style: italic; margin-bottom: 1.5rem;">
+            "The resource sharing platform has been a game-changer for me. I was able to use a tractor during planting season that I could never afford to buy on my own. The expert consultation also helped me deal with a pest problem that was affecting my crops."
+          </blockquote>
+          <div style="text-align: center;">
+            <strong>Mary Odhiambo</strong><br>
+            <small>Vegetable Farmer, Kisumu</small>
           </div>
         </div>
-        
-        <!-- Story 3 -->
-        <div class="story-card">
-          <div class="story-image">
-            <img src="/api/placeholder/300/180" alt="Success Story">
+        <div class="card" style="flex: 1; min-width: 300px; display: flex; flex-direction: column;">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <img src="assets/images/farmer3.jpg" alt="David Mwangi" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
           </div>
-          <div class="story-content">
-            <h4>Expert Guidance Changed Everything</h4>
-            <p>"The expert consultation service connected me with an agricultural specialist who helped me resolve a persistent crop disease issue. My harvest is now better than ever."</p>
-            <div class="member-info">
-              <div class="member-avatar"></div>
-              <div>
-                <div class="member-name">David Mutua</div>
-                <div>Coffee Grower, Nyeri</div>
-              </div>
-            </div>
+          <blockquote style="flex: 1; font-style: italic; margin-bottom: 1.5rem;">
+            "I've been saving towards buying a dairy cow through the goal-based savings program. The mobile banking feature makes it easy to deposit money from anywhere, even from my farm. The community forum has also been an excellent source of knowledge on dairy farming practices."
+          </blockquote>
+          <div style="text-align: center;">
+            <strong>David Mwangi</strong><br>
+            <small>Dairy Farmer, Nyeri</small>
           </div>
         </div>
       </div>
     </div>
   </section>
-  
+
   <!-- CTA Section -->
-  <section class="cta-section">
+  <section style="padding: 5rem 0; background-color: var(--primary-color); color: white; text-align: center;">
     <div class="container">
-      <h3>Join Our Agricultural Cooperative Today</h3>
-      <p>Become part of a growing community of farmers working together to build sustainable and profitable agricultural businesses</p>
-      <button class="btn btn-primary btn-large">Apply for Membership</button>
+      <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Ready to Join Our Agricultural Sacco?</h2>
+      <p style="max-width: 800px; margin: 0 auto 2rem;">
+        Become a member today and access our full range of financial services and agricultural support features designed to help you grow your farming business sustainably.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center;">
+        <a href="pages/register.html" class="btn btn-secondary btn-large">Register Now</a>
+        <a href="pages/login.html" class="btn btn-outline btn-large">Member Login</a>
+      </div>
     </div>
   </section>
-  
+
   <!-- Footer -->
-  <footer>
+  <footer class="footer">
     <div class="container">
-      <div class="footer-container">
-        <div class="footer-col">
-          <h4>About Us</h4>
-          <ul class="footer-links">
-            <li><a href="#">Our Mission</a></li>
-            <li><a href="#">Leadership Team</a></li>
-            <li><a href="#">Partners</a></li>
-            <li><a href="#">News & Updates</a></li>
-            <li><a href="#">Careers</a></li>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Agri-Sacco</h3>
+          <p>A holistic management system for agricultural Sacco development that connects farmers, resources, and markets.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="pages/register.html">Join Now</a></li>
           </ul>
         </div>
-        
-        <div class="footer-col">
-          <h4>Services</h4>
-          <ul class="footer-links">
-            <li><a href="#">Savings Products</a></li>
-            <li><a href="#">Loan Services</a></li>
-            <li><a href="#">Agricultural Support</a></li>
-            <li><a href="#">Marketplace</a></li>
-            <li><a href="#">Community Forum</a></li>
-          </ul>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Farming Road, Nairobi</p>
+          <p><i class="fas fa-phone"></i> +254 123 456 789</p>
+          <p><i class="fas fa-envelope"></i> info@agrisacco.com</p>
         </div>
-        
-        <div class="footer-col">
-          <h4>Resources</h4>
-          <ul class="footer-links">
-            <li><a href="#">Knowledge Base</a></li>
-            <li><a href="#">Success Stories</a></li>
-            <li><a href="#">Webinars</a></li>
-            <li><a href="#">User Guides</a></li>
-            <li><a href="#">FAQ</a></li>
-          </ul>
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
+            <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+            <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+            <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+          </div>
         </div>
-        
-        <div class="footer-col">
-          <h4>Contact Us</h4>
-          <ul class="footer-links">
-            <li><a href="#">support@agrosacco.com</a></li>
-            <li><a href="#">+254 700 123 456</a></li>
-            <li><a href="#">Nairobi, Kenya</a></li>
-          </ul>
-          <div class="social-links">
-            <a href="#" class="social-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
-            </a>
-            <a href="#" class="social-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-              </svg>
-            </a>
-            <a href
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Agri-Sacco. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
