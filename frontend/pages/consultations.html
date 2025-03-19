@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expert Consultations - AgriBundance</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/consultations.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <img src="/frontend/ASSETS/images/WhatsApp Image 2025-02-21 at 23.37.06_62330f14.jpg" alt="Logo" style="height: 30px; margin-right: 10px;"> AgriBundance
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="members.html">My Profile</a></li>
+          <li id="notificationDropdown" style="position: relative;">
+            <a href="#" id="notificationToggle">
+              <i class="fas fa-bell"></i>
+              <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; font-size: 10px; display: flex; align-items: center; justify-content: center;">0</span>
+            </a>
+            <div id="notificationContainer" style="position: absolute; top: 100%; right: -10px; width: 300px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); z-index: 100; display: none;">
+              <div style="padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 1rem;">Notifications</h3>
+                <button id="markAllRead" style="background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 0.8rem;">Mark all as read</button>
+              </div>
+              <div id="notificationList" style="max-height: 300px; overflow-y: auto;">
+                <!-- Notifications will be populated here -->
+                <div style="padding: 15px; text-align: center; color: var(--text-light);">
+                  No new notifications
+                </div>
+              </div>
+              <div style="padding: 10px; text-align: center; border-top: 1px solid var(--border-color);">
+                <a href="#" style="color: var(--primary-color); font-size: 0.9rem;">View all notifications</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="user-dropdown" style="position: relative;">
+              <a href="#" id="userDropdownToggle" style="display: flex; align-items: center;">
+                <div id="userInitials" style="width: 30px; height: 30px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; margin-right: 5px;">JD</div>
+                <span id="userName">John Doe</span>
+                <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: 0.8rem;"></i>
+              </a>
+              <div id="userDropdownMenu" style="position: absolute; top: 100%; right: 0; width: 200px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); z-index: 100; display: none;">
+                <a href="members.html" style="display: block; padding: 10px 15px; color: var(--text-color); border-bottom: 1px solid var(--border-color);">
+                  <i class="fas fa-user" style="margin-right: 10px;"></i> My Profile
+                </a>
+                <a href="#" style="display: block; padding: 10px 15px; color: var(--text-color); border-bottom: 1px solid var(--border-color);">
+                  <i class="fas fa-cog" style="margin-right: 10px;"></i> Settings
+                </a>
+                <a href="#" id="logoutBtn" style="display: block; padding: 10px 15px; color: var(--danger-color);">
+                  <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i> Logout
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div id="sidebarUserInitials" style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 10px;">JD</div>
+        <h3 id="sidebarUserName">John Doe</h3>
+        <p id="membershipId" style="color: var(--text-light); font-size: 0.8rem;">Member ID: #12345</p>
+      </div>
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item">
+          <a href="dashboard.html">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="savings.html">
+            <i class="fas fa-piggy-bank"></i> Savings
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="loans.html">
+            <i class="fas fa-hand-holding-usd"></i> Loans
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="finance.html">
+            <i class="fas fa-money-bill-wave"></i> Financial
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="marketplace.html">
+            <i class="fas fa-store"></i> Marketplace
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="resources.html">
+            <i class="fas fa-tractor"></i> Resources
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="forum.html">
+            <i class="fas fa-users"></i> Forum
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="consultations.html" class="active">
+            <i class="fas fa-user-md"></i> Consultations
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-title">Expert Consultations</h1>
+          <p style="color: var(--text-light);">Book sessions with agricultural experts for personalized advice</p>
+        </div>
+        <div class="dashboard-actions">
+          <button class="btn btn-primary" id="bookConsultationBtn">
+            <i class="fas fa-calendar-plus"></i> Book New Consultation
+          </button>
+        </div>
+      </div>
+
+      <!-- Upcoming Consultations -->
+      <div class="card" style="margin-bottom: 25px;">
+        <div class="card-header">
+          <h3 class="card-title">Upcoming Consultations</h3>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date & Time</th>
+                  <th>Expert</th>
+                  <th>Specialty</th>
+                  <th>Duration</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="upcomingConsultationsTable">
+                <tr>
+                  <td>Mar 25, 2025 - 10:00 AM</td>
+                  <td>Dr. Sarah Kimani</td>
+                  <td>Crop Disease Specialist</td>
+                  <td>1 hour</td>
+                  <td><span class="badge badge-success">Confirmed</span></td>
+                  <td>
+                    <button class="btn btn-small btn-outline"><i class="fas fa-video"></i> Join</button>
+                    <button class="btn btn-small btn-danger"><i class="fas fa-times"></i> Cancel</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Apr 2, 2025 - 2:30 PM</td>
+                  <td>Mr. James Mwangi</td>
+                  <td>Soil Expert</td>
+                  <td>45 mins</td>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                  <td>
+                    <button class="btn btn-small btn-outline" disabled><i class="fas fa-video"></i> Join</button>
+                    <button class="btn btn-small btn-danger"><i class="fas fa-times"></i> Cancel</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Our Experts -->
+      <div class="card" style="margin-bottom: 25px;">
+        <div class="card-header">
+          <h3 class="card-title">Our Experts</h3>
+          <div class="card-actions">
+            <div class="search-bar">
+              <input type="text" placeholder="Search experts..." class="form-control">
+              <button class="btn btn-icon"><i class="fas fa-search"></i></button>
+            </div>
+            <select class="form-control" id="expertiseFilter">
+              <option value="">All Specialties</option>
+              <option value="crop">Crop Specialists</option>
+              <option value="livestock">Livestock Specialists</option>
+              <option value="soil">Soil Experts</option>
+              <option value="irrigation">Irrigation Experts</option>
+              <option value="business">Agribusiness Advisors</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="experts-grid">
+            <!-- Expert Card 1 -->
+            <div class="expert-card">
+              <div class="expert-image" style="background-color: var(--primary-color); color: white; height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+                <i class="fas fa-user-md"></i>
+              </div>
+              <div class="expert-info" style="padding: 15px;">
+                <h4 style="margin-top: 0;">Dr. Sarah Kimani</h4>
+                <p style="color: var(--text-light); margin-bottom: 10px;">Crop Disease Specialist</p>
+                <div class="expert-rating" style="color: var(--accent-color); margin-bottom: 10px;">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span style="color: var(--text-color); margin-left: 5px;">4.5 (42 reviews)</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Specializes in identifying and treating common crop diseases affecting maize, beans, and vegetables.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: var(--primary-color);">KES 1,500/hour</span>
+                  <button class="btn btn-primary btn-small">Book Session</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Expert Card 2 -->
+            <div class="expert-card">
+              <div class="expert-image" style="background-color: var(--primary-color); color: white; height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+                <i class="fas fa-user-md"></i>
+              </div>
+              <div class="expert-info" style="padding: 15px;">
+                <h4 style="margin-top: 0;">Mr. James Mwangi</h4>
+                <p style="color: var(--text-light); margin-bottom: 10px;">Soil Expert</p>
+                <div class="expert-rating" style="color: var(--accent-color); margin-bottom: 10px;">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <span style="color: var(--text-color); margin-left: 5px;">4.0 (28 reviews)</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Expert in soil testing, fertility management, and sustainable soil practices for optimal crop yield.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: var(--primary-color);">KES 1,200/hour</span>
+                  <button class="btn btn-primary btn-small">Book Session</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Expert Card 3 -->
+            <div class="expert-card">
+              <div class="expert-image" style="background-color: var(--primary-color); color: white; height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+                <i class="fas fa-user-md"></i>
+              </div>
+              <div class="expert-info" style="padding: 15px;">
+                <h4 style="margin-top: 0;">Dr. Elizabeth Ochieng</h4>
+                <p style="color: var(--text-light); margin-bottom: 10px;">Livestock Specialist</p>
+                <div class="expert-rating" style="color: var(--accent-color); margin-bottom: 10px;">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <span style="color: var(--text-color); margin-left: 5px;">5.0 (36 reviews)</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Specialized in dairy cattle health, breeding, and management for improved milk production.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: var(--primary-color);">KES 1,800/hour</span>
+                  <button class="btn btn-primary btn-small">Book Session</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Expert Card 4 -->
+            <div class="expert-card">
+              <div class="expert-image" style="background-color: var(--primary-color); color: white; height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+                <i class="fas fa-user-md"></i>
+              </div>
+              <div class="expert-info" style="padding: 15px;">
+                <h4 style="margin-top: 0;">Mr. David Mutua</h4>
+                <p style="color: var(--text-light); margin-bottom: 10px;">Irrigation Expert</p>
+                <div class="expert-rating" style="color: var(--accent-color); margin-bottom: 10px;">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <span style="color: var(--text-color); margin-left: 5px;">4.1 (19 reviews)</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Specializes in water-efficient irrigation systems design and management for small to medium scale farms.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: var(--primary-color);">KES 1,400/hour</span>
+                  <button class="btn btn-primary btn-small">Book Session</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-outline">Load More Experts</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Past Consultations -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Past Consultations</h3>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Expert</th>
+                  <th>Topic</th>
+                  <th>Duration</th>
+                  <th>Rating</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="pastConsultationsTable">
+                <tr>
+                  <td>Feb 15, 2025</td>
+                  <td>Dr. Elizabeth Ochieng</td>
+                  <td>Dairy Cow Health Management</td>
+                  <td>1 hour</td>
+                  <td>
+                    <div style="color: var(--accent-color);">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn btn-small btn-outline"><i class="fas fa-file-alt"></i> Notes</button>
+                    <button class="btn btn-small btn-primary"><i class="fas fa-redo"></i> Rebook</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Jan 30, 2025</td>
+                  <td>Mr. James Mwangi</td>
+                  <td>Soil Testing Results Review</td>
+                  <td>45 mins</td>
+                  <td>
+                    <div style="color: var(--accent-color);">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn btn-small btn-outline"><i class="fas fa-file-alt"></i> Notes</button>
+                    <button class="btn btn-small btn-primary"><i class="fas fa-redo"></i> Rebook</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Consultation Booking Modal -->
+      <div id="consultationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Book a Consultation</h3>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <form id="consultationForm">
+              <div class="form-group">
+                <label for="expertSelect">Select Expert</label>
+                <select id="expertSelect" class="form-control" required>
+                  <option value="">-- Select an Expert --</option>
+                  <option value="1">Dr. Sarah Kimani - Crop Disease Specialist</option>
+                  <option value="2">Mr. James Mwangi - Soil Expert</option>
+                  <option value="3">Dr. Elizabeth Ochieng - Livestock Specialist</option>
+                  <option value="4">Mr. David Mutua - Irrigation Expert</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="consultationDate">Preferred Date</label>
+                <input type="date" id="consultationDate" class="form-control" required min="2025-03-20">
+              </div>
+              <div class="form-group">
+                <label for="consultationTime">Preferred Time</label>
+                <select id="consultationTime" class="form-control" required>
+                  <option value="">-- Select Time Slot --</option>
+                  <option value="09:00">9:00 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="12:00">12:00 PM</option>
+                  <option value="14:00">2:00 PM</option>
+                  <option value="15:00">3:00 PM</option>
+                  <option value="16:00">4:00 PM</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="consultationType">Consultation Type</label>
+                <select id="consultationType" class="form-control" required>
+                  <option value="video">Video Call</option>
+                  <option value="phone">Phone Call</option>
+                  <option value="inperson">In Person (at SACCO office)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="consultationTopic">Consultation Topic/Question</label>
+                <textarea id="consultationTopic" class="form-control" rows="3" placeholder="Please describe what you'd like to discuss..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="consultationDuration">Duration</label>
+                <select id="consultationDuration" class="form-control" required>
+                  <option value="30">30 minutes - KES 750</option>
+                  <option value="45">45 minutes - KES 1,000</option>
+                  <option value="60" selected>1 hour - KES 1,500</option>
+                  <option value="90">1.5 hours - KES 2,200</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Book Consultation</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/consultations.js"></script>
+</body>
+</html>

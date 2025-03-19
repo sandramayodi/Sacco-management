@@ -1,0 +1,81 @@
+<!-- frontend/components/sidebar.html -->
+<div class="sidebar">
+    <div class="sidebar-header">
+      <div id="sidebarUserInitials" style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 10px;">JD</div>
+      <h3 id="sidebarUserName">John Doe</h3>
+      <p id="membershipId" style="color: var(--text-light); font-size: 0.8rem;">Member ID: #12345</p>
+    </div>
+    <div class="sidebar-menu">
+      <div class="sidebar-menu-item">
+        <a href="dashboard.html" id="sidebar-dashboard">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+      </div>
+      <div class="sidebar-menu-item">
+        <a href="savings.html" id="sidebar-savings">
+          <i class="fas fa-piggy-bank"></i> Savings
+        </a>
+      </div>
+      <div class="sidebar-menu-item">
+        <a href="loans.html" id="sidebar-loans">
+          <i class="fas fa-hand-holding-usd"></i> Loans
+        </a>
+      </div>
+      <div class="sidebar-menu-item">
+        <a href="finance.html" id="sidebar-finance">
+          <i class="fas fa-money-bill-wave"></i> Financial
+        </a>
+      </div>
+      <div class="sidebar-menu-item">
+        <a href="marketplace.html" id="sidebar-marketplace">
+          <i class="fas fa-store"></i> Marketplace
+        </a>
+      </div>
+      <div class="sidebar-menu-item">
+        <a href="resources.html" id="sidebar-resources">
+          <i class="fas fa-tractor"></i> Resources
+        </a>
+      </div>
+      <div class="sidebar-menu-item">
+        <a href="forum.html" id="sidebar-forum">
+          <i class="fas fa-users"></i> Forum
+        </a>
+      </div>
+      <div class="sidebar-menu-item">
+        <a href="consultations.html" id="sidebar-consultations">
+          <i class="fas fa-user-md"></i> Consultations
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Update active sidebar link
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPage = window.location.pathname.split('/').pop();
+      
+      // Reset all sidebar links
+      document.querySelectorAll('.sidebar-menu-item a').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // Determine which link to activate
+      if (currentPage === 'dashboard.html') {
+        document.getElementById('sidebar-dashboard').classList.add('active');
+      } else if (currentPage === 'savings.html') {
+        document.getElementById('sidebar-savings').classList.add('active');
+      } else if (currentPage === 'loans.html') {
+        document.getElementById('sidebar-loans').classList.add('active');
+      } else if (currentPage === 'finance.html') {
+        document.getElementById('sidebar-finance').classList.add('active');
+      } else if (currentPage === 'marketplace.html') {
+        document.getElementById('sidebar-marketplace').classList.add('active');
+      } else if (currentPage === 'resources.html') {
+        document.getElementById('sidebar-resources').classList.add('active');
+      } else if (currentPage === 'forum.html') {
+        document.getElementById('sidebar-forum').classList.add('active');
+      } else if (currentPage === 'consultations.html') {
+        document.getElementById('sidebar-consultations').classList.add('active');
+      }
+    });
+  </script>
