@@ -211,8 +211,10 @@
         localStorage.setItem('memberData', JSON.stringify(data.data));
         
         // Redirect to dashboard
+        console.log('Registration successful, redirecting to dashboard');
         window.location.href = 'dashboard.html';
       } catch (error) {
+        console.error('Registration error:', error);
         errorAlert.textContent = error.message;
         errorAlert.style.display = 'block';
       }

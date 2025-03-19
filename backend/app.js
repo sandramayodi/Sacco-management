@@ -23,7 +23,10 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors( {
+    origin:'http:/localhost:5000',
+    
+  }));
 
 // Logging in development mode
 if (config.NODE_ENV === 'development') {
@@ -48,5 +51,16 @@ app.get('*', (req, res) => {
 
 // Error handling middleware
 app.use(errorHandler);
+// server.js or app.js
+// This should be after all your routes
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  
+  res.status(err.statusCode || 500).json({
+    success: false,
+    error: err.message || 'Server Error'
+  });
+});
 
 module.exports = app;

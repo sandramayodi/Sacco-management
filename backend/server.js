@@ -11,6 +11,18 @@ const server = app.listen(PORT, () => {
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`);
+
+  // server.js or app.js
+// This should be after all your routes
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  
+  res.status(err.statusCode || 500).json({
+    success: false,
+    error: err.message || 'Server Error'
+  });
+});
   // Close server & exit process
   server.close(() => process.exit(1));
 });
