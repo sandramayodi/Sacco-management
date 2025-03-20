@@ -23,10 +23,13 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors( {
-    origin:'http:/localhost:5000',
+app.use(cors({
+  origin: '*',  // Allows requests from any origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,  // Allow cookies/auth headers
+}));
 
-  }));
+
 
 // Logging in development mode
 if (config.NODE_ENV === 'development') {
