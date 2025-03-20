@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace - AgriBundance</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/marketplace.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <img src="/frontend/ASSETS/images/WhatsApp Image 2025-02-21 at 23.37.06_62330f14.jpg" alt="Logo" style="height: 30px; margin-right: 10px;"> AgriBundance
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="members.html">My Profile</a></li>
+          <li id="notificationDropdown" style="position: relative;">
+            <a href="#" id="notificationToggle">
+              <i class="fas fa-bell"></i>
+              <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; font-size: 10px; display: flex; align-items: center; justify-content: center;">0</span>
+            </a>
+            <div id="notificationContainer" style="position: absolute; top: 100%; right: -10px; width: 300px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); z-index: 100; display: none;">
+              <!-- Notification content similar to dashboard.html -->
+            </div>
+          </li>
+          <li>
+            <div class="user-dropdown" style="position: relative;">
+              <a href="#" id="userDropdownToggle" style="display: flex; align-items: center;">
+                <div id="userInitials" style="width: 30px; height: 30px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; margin-right: 5px;">JD</div>
+                <span id="userName">John Doe</span>
+                <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: 0.8rem;"></i>
+              </a>
+              <div id="userDropdownMenu" style="position: absolute; top: 100%; right: 0; width: 200px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); z-index: 100; display: none;">
+                <!-- User dropdown content similar to dashboard.html -->
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div id="sidebarUserInitials" style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 10px;">JD</div>
+        <h3 id="sidebarUserName">John Doe</h3>
+        <p id="membershipId" style="color: var(--text-light); font-size: 0.8rem;">Member ID: #12345</p>
+      </div>
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item">
+          <a href="dashboard.html">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="savings.html">
+            <i class="fas fa-piggy-bank"></i> Savings
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="loans.html">
+            <i class="fas fa-hand-holding-usd"></i> Loans
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="finance.html">
+            <i class="fas fa-money-bill-wave"></i> Financial
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="marketplace.html" class="active">
+            <i class="fas fa-store"></i> Marketplace
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="resources.html">
+            <i class="fas fa-tractor"></i> Resources
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="forum.html">
+            <i class="fas fa-users"></i> Forum
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="consultations.html">
+            <i class="fas fa-user-md"></i> Consultations
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-title">Marketplace</h1>
+          <p style="color: var(--text-light);">Buy and sell agricultural products and services directly with other members</p>
+        </div>
+        <div class="dashboard-actions">
+          <button class="btn btn-outline" id="viewMyListingsBtn">
+            <i class="fas fa-list"></i> My Listings
+          </button>
+          <button class="btn btn-primary" id="createListingBtn">
+            <i class="fas fa-plus"></i> Create Listing
+          </button>
+        </div>
+      </div>
+
+      <!-- Marketplace Search & Filter -->
+      <div class="marketplace-header">
+        <div class="search-container">
+          <div class="search-bar">
+            <input type="text" placeholder="Search marketplace..." class="form-control">
+            <button class="btn btn-icon"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="filter-options">
+            <select class="form-control" id="categoryFilter">
+              <option value="">All Categories</option>
+              <option value="crops">Crops & Produce</option>
+              <option value="livestock">Livestock & Dairy</option>
+              <option value="seeds">Seeds & Planting Materials</option>
+              <option value="fertilizer">Fertilizers & Pesticides</option>
+              <option value="equipment">Equipment & Tools</option>
+              <option value="services">Farm Services</option>
+            </select>
+            <select class="form-control" id="sortFilter">
+              <option value="recent">Most Recent</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="popular">Most Popular</option>
+            </select>
+            <button class="btn btn-outline btn-filter">
+              <i class="fas fa-sliders-h"></i> More Filters
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Listings -->
+      <div class="section-title">
+        <h2>Featured Listings</h2>
+        <a href="#" class="view-all">View All</a>
+      </div>
+      
+      <div class="featured-listings">
+        <!-- Featured Listing 1 -->
+        <div class="listing-card featured">
+          <div class="listing-badge">Featured</div>
+          <div class="listing-image">
+            <div style="height: 180px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-seedling" style="font-size: 3rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Quality Maize Seeds</h3>
+              <div class="listing-price">KES 1,200 / kg</div>
+            </div>
+            <div class="listing-description">
+              Hybrid maize seeds with high yield potential. Drought-resistant variety suitable for various soil types.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">MK</div>
+                <div class="seller-name">Mary Kamau</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Nakuru County
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline">View Details</button>
+              <button class="btn btn-primary">Buy Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Listing 2 -->
+        <div class="listing-card featured">
+          <div class="listing-badge">Featured</div>
+          <div class="listing-image">
+            <div style="height: 180px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-apple-alt" style="font-size: 3rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Fresh Apples</h3>
+              <div class="listing-price">KES 250 / kg</div>
+            </div>
+            <div class="listing-description">
+              Freshly harvested apples from Nyeri. Sweet and crisp, perfect for direct consumption or value addition.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">JO</div>
+                <div class="seller-name">James Odhiambo</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Nyeri County
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline">View Details</button>
+              <button class="btn btn-primary">Buy Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Listing 3 -->
+        <div class="listing-card featured">
+          <div class="listing-badge">Featured</div>
+          <div class="listing-image">
+            <div style="height: 180px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-tractor" style="font-size: 3rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Tractor Service</h3>
+              <div class="listing-price">KES 3,000 / acre</div>
+            </div>
+            <div class="listing-description">
+              Professional tractor service for plowing, harrowing, and planting. Experienced operator available.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">DM</div>
+                <div class="seller-name">David Mutua</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Machakos County
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline">View Details</button>
+              <button class="btn btn-primary">Book Service</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Market Categories -->
+      <div class="section-title">
+        <h2>Browse by Category</h2>
+      </div>
+      
+      <div class="category-grid">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <div class="category-title">Crops & Produce</div>
+          <div class="category-count">128 listings</div>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-cow"></i>
+          </div>
+          <div class="category-title">Livestock & Dairy</div>
+          <div class="category-count">86 listings</div>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <div class="category-title">Seeds & Planting Materials</div>
+          <div class="category-count">72 listings</div>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-flask"></i>
+          </div>
+          <div class="category-title">Fertilizers & Pesticides</div>
+          <div class="category-count">54 listings</div>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <div class="category-title">Equipment & Tools</div>
+          <div class="category-count">93 listings</div>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-hand-holding"></i>
+          </div>
+          <div class="category-title">Farm Services</div>
+          <div class="category-count">67 listings</div>
+        </div>
+      </div>
+
+      <!-- Recent Listings -->
+      <div class="section-title">
+        <h2>Recent Listings</h2>
+        <a href="#" class="view-all">View All</a>
+      </div>
+      
+      <div class="listings-grid">
+        <!-- Listing 1 -->
+        <div class="listing-card">
+          <div class="listing-image">
+            <div style="height: 160px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-shovel" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Farm Tools Set</h3>
+              <div class="listing-price">KES 3,800</div>
+            </div>
+            <div class="listing-description">
+              Complete set of hand tools for small-scale farming. Includes hoes, spades, and rakes.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">BK</div>
+                <div class="seller-name">Bernard Kiprop</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Eldoret
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline btn-small">View</button>
+              <button class="btn btn-primary btn-small">Buy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Load More Button -->
+      <div class="load-more">
+        <button class="btn btn-outline">Load More Listings</button>
+      </div>
+
+      <!-- Market Insights -->
+      <div class="section-title">
+        <h2>Market Insights</h2>
+      </div>
+      
+      <div class="market-insights">
+        <div class="insight-card">
+          <div class="insight-header">
+            <h3>Current Market Prices</h3>
+            <span class="insight-date">Updated: Mar 18, 2025</span>
+          </div>
+          <div class="insight-content">
+            <table class="price-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price Range (KES)</th>
+                  <th>Trend</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Maize (90kg bag)</td>
+                  <td>3,200 - 3,800</td>
+                  <td class="trend-up"><i class="fas fa-arrow-up"></i> +5.2%</td>
+                </tr>
+                <tr>
+                  <td>Beans (90kg bag)</td>
+                  <td>7,500 - 8,200</td>
+                  <td class="trend-up"><i class="fas fa-arrow-up"></i> +3.8%</td>
+                </tr>
+                <tr>
+                  <td>Potatoes (110kg bag)</td>
+                  <td>2,800 - 3,500</td>
+                  <td class="trend-down"><i class="fas fa-arrow-down"></i> -2.1%</td>
+                </tr>
+                <tr>
+                  <td>Tomatoes (crate)</td>
+                  <td>3,500 - 4,200</td>
+                  <td class="trend-down"><i class="fas fa-arrow-down"></i> -8.5%</td>
+                </tr>
+                <tr>
+                  <td>Eggs (tray of 30)</td>
+                  <td>420 - 480</td>
+                  <td class="trend-stable"><i class="fas fa-equals"></i> 0%</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="insight-footer">
+              <a href="#" class="btn btn-small btn-outline">View Full Price List</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="insight-card">
+          <div class="insight-header">
+            <h3>Upcoming Markets & Events</h3>
+          </div>
+          <div class="insight-content">
+            <div class="event-list">
+              <div class="event-item">
+                <div class="event-date">
+                  <div class="date-day">25</div>
+                  <div class="date-month">MAR</div>
+                </div>
+                <div class="event-details">
+                  <h4>Nakuru Agricultural Fair</h4>
+                  <p>ASK Showground, Nakuru County</p>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date">
+                  <div class="date-day">02</div>
+                  <div class="date-month">APR</div>
+                </div>
+                <div class="event-details">
+                  <h4>Farmers Market Day</h4>
+                  <p>Nyeri Town, Nyeri County</p>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date">
+                  <div class="date-day">15</div>
+                  <div class="date-month">APR</div>
+                </div>
+                <div class="event-details">
+                  <h4>Agribusiness Expo</h4>
+                  <p>KICC, Nairobi</p>
+                </div>
+              </div>
+            </div>
+            <div class="insight-footer">
+              <a href="#" class="btn btn-small btn-outline">View All Events</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Listing Modal -->
+      <div id="createListingModal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+          <div class="modal-header">
+            <h3>Create New Listing</h3>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <form id="listingForm">
+              <div class="form-group">
+                <label for="listingTitle">Title</label>
+                <input type="text" id="listingTitle" class="form-control" placeholder="Enter a descriptive title for your listing" required>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="listingCategory">Category</label>
+                  <select id="listingCategory" class="form-control" required>
+                    <option value="">-- Select Category --</option>
+                    <option value="crops">Crops & Produce</option>
+                    <option value="livestock">Livestock & Dairy</option>
+                    <option value="seeds">Seeds & Planting Materials</option>
+                    <option value="fertilizer">Fertilizers & Pesticides</option>
+                    <option value="equipment">Equipment & Tools</option>
+                    <option value="services">Farm Services</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="listingSubcategory">Subcategory</label>
+                  <select id="listingSubcategory" class="form-control" required>
+                    <option value="">-- Select Subcategory --</option>
+                    <!-- Will be populated based on category selection -->
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="listingDescription">Description</label>
+                <textarea id="listingDescription" class="form-control" rows="5" placeholder="Describe your product or service in detail..." required></textarea>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="listingPrice">Price (KES)</label>
+                  <input type="number" id="listingPrice" class="form-control" min="1" step="1" required>
+                </div>
+                <div class="form-group">
+                  <label for="listingUnit">Unit</label>
+                  <select id="listingUnit" class="form-control" required>
+                    <option value="">-- Select Unit --</option>
+                    <option value="each">Each / Piece</option>
+                    <option value="kg">Per Kilogram (kg)</option>
+                    <option value="bag">Per Bag</option>
+                    <option value="crate">Per Crate</option>
+                    <option value="tray">Per Tray</option>
+                    <option value="liter">Per Liter</option>
+                    <option value="acre">Per Acre</option>
+                    <option value="hour">Per Hour</option>
+                    <option value="day">Per Day</option>
+                    <option value="month">Per Month</option>
+                    <option value="trip">Per Trip</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="listingQuantity">Available Quantity</label>
+                  <input type="number" id="listingQuantity" class="form-control" min="1" step="1" required>
+                </div>
+                <div class="form-group">
+                  <label for="listingLocation">Location</label>
+                  <select id="listingLocation" class="form-control" required>
+                    <option value="">-- Select County --</option>
+                    <option value="Nairobi">Nairobi</option>
+                    <option value="Mombasa">Mombasa</option>
+                    <option value="Kisumu">Kisumu</option>
+                    <option value="Nakuru">Nakuru</option>
+                    <option value="Kiambu">Kiambu</option>
+                    <option value="Machakos">Machakos</option>
+                    <option value="Nyeri">Nyeri</option>
+                    <option value="Uasin Gishu">Uasin Gishu</option>
+                    <!-- More counties would be added here -->
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label>Product Images</label>
+                <div class="image-upload-container">
+                  <div class="image-upload-box">
+                    <input type="file" id="listingImage1" class="image-upload" accept="image/*">
+                    <label for="listingImage1">
+                      <i class="fas fa-plus"></i>
+                      <span>Add Image</span>
+                    </label>
+                  </div>
+                  <div class="image-upload-box">
+                    <input type="file" id="listingImage2" class="image-upload" accept="image/*">
+                    <label for="listingImage2">
+                      <i class="fas fa-plus"></i>
+                      <span>Add Image</span>
+                    </label>
+                  </div>
+                  <div class="image-upload-box">
+                    <input type="file" id="listingImage3" class="image-upload" accept="image/*">
+                    <label for="listingImage3">
+                      <i class="fas fa-plus"></i>
+                      <span>Add Image</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-hint">You can upload up to 3 images (Max 2MB each)</div>
+              </div>
+              
+              <div class="form-group">
+                <label>Contact Preferences</label>
+                <div class="form-check">
+                  <input type="checkbox" id="contactPhone" name="contactMethod" value="phone" checked>
+                  <label for="contactPhone">Phone (+254 712 345 678)</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" id="contactEmail" name="contactMethod" value="email">
+                  <label for="contactEmail">Email (johndoe@example.com)</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" id="contactInApp" name="contactMethod" value="inapp" checked>
+                  <label for="contactInApp">In-App Messaging</label>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="listingValid">Listing Valid Until</label>
+                <input type="date" id="listingValid" class="form-control" min="2025-03-20" required>
+              </div>
+              
+              <div class="form-group">
+                <div class="form-check">
+                  <input type="checkbox" id="termsAgreement" required>
+                  <label for="termsAgreement">I agree to the marketplace terms and conditions. I confirm that the information provided is accurate.</label>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Listing</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- My Listings Modal -->
+      <div id="myListingsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>My Listings</h3>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <div class="my-listings">
+              <!-- Listing 1 -->
+              <div class="my-listing-item">
+                <div class="listing-thumbnail">
+                  <div style="height: 80px; width: 80px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius);">
+                    <i class="fas fa-seedling" style="font-size: 2rem; color: var(--primary-color);"></i>
+                  </div>
+                </div>
+                <div class="listing-info">
+                  <h4>Quality Maize Seeds</h4>
+                  <div class="listing-stats">
+                    <span><i class="fas fa-eye"></i> 45 views</span>
+                    <span><i class="fas fa-shopping-basket"></i> 2 orders</span>
+                    <span><i class="fas fa-calendar-alt"></i> Expires: Apr 19, 2025</span>
+                  </div>
+                </div>
+                <div class="listing-status active">
+                  <span class="badge badge-success">Active</span>
+                </div>
+                <div class="listing-actions">
+                  <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                  <button class="btn btn-small btn-outline"><i class="fas fa-pause"></i> Pause</button>
+                  <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                </div>
+              </div>
+              
+              <!-- Listing 2 -->
+              <div class="my-listing-item">
+                <div class="listing-thumbnail">
+                  <div style="height: 80px; width: 80px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius);">
+                    <i class="fas fa-tractor" style="font-size: 2rem; color: var(--primary-color);"></i>
+                  </div>
+                </div>
+                <div class="listing-info">
+                  <h4>Tractor Service</h4>
+                  <div class="listing-stats">
+                    <span><i class="fas fa-eye"></i> 28 views</span>
+                    <span><i class="fas fa-shopping-basket"></i> 1 order</span>
+                    <span><i class="fas fa-calendar-alt"></i> Expires: Apr 05, 2025</span>
+                  </div>
+                </div>
+                <div class="listing-status inactive">
+                  <span class="badge badge-warning">Paused</span>
+                </div>
+                <div class="listing-actions">
+                  <button class="btn btn-small btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                  <button class="btn btn-small btn-outline"><i class="fas fa-play"></i> Activate</button>
+                  <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                </div>
+              </div>
+              
+              <!-- Listing 3 -->
+              <div class="my-listing-item">
+                <div class="listing-thumbnail">
+                  <div style="height: 80px; width: 80px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius);">
+                    <i class="fas fa-apple-alt" style="font-size: 2rem; color: var(--primary-color);"></i>
+                  </div>
+                </div>
+                <div class="listing-info">
+                  <h4>Fresh Apples</h4>
+                  <div class="listing-stats">
+                    <span><i class="fas fa-eye"></i> 32 views</span>
+                    <span><i class="fas fa-shopping-basket"></i> 3 orders</span>
+                    <span><i class="fas fa-calendar-alt"></i> Expired: Feb 10, 2025</span>
+                  </div>
+                </div>
+                <div class="listing-status expired">
+                  <span class="badge badge-danger">Expired</span>
+                </div>
+                <div class="listing-actions">
+                  <button class="btn btn-small btn-outline"><i class="fas fa-copy"></i> Duplicate</button>
+                  <button class="btn btn-small btn-outline"><i class="fas fa-redo"></i> Renew</button>
+                  <button class="btn btn-small btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/marketplace.js"></script>
+</body>
+</html>border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-carrot" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Fresh Carrots</h3>
+              <div class="listing-price">KES 80 / kg</div>
+            </div>
+            <div class="listing-description">
+              Organically grown carrots, freshly harvested. Sweet and crunchy.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">SW</div>
+                <div class="seller-name">Sarah Wanjiku</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Nyandarua
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline btn-small">View</button>
+              <button class="btn btn-primary btn-small">Buy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listing 2 -->
+        <div class="listing-card">
+          <div class="listing-image">
+            <div style="height: 160px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-egg" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Farm Fresh Eggs</h3>
+              <div class="listing-price">KES 450 / tray</div>
+            </div>
+            <div class="listing-description">
+              Free-range eggs from well-fed indigenous chickens. Large size.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">AN</div>
+                <div class="seller-name">Alice Nduta</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Kiambu
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline btn-small">View</button>
+              <button class="btn btn-primary btn-small">Buy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listing 3 -->
+        <div class="listing-card">
+          <div class="listing-image">
+            <div style="height: 160px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-spray-can" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Organic Pesticide</h3>
+              <div class="listing-price">KES 650 / liter</div>
+            </div>
+            <div class="listing-description">
+              Neem-based organic pesticide. Safe for the environment and effective against pests.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">JM</div>
+                <div class="seller-name">Jacob Maina</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Embu
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline btn-small">View</button>
+              <button class="btn btn-primary btn-small">Buy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listing 4 -->
+        <div class="listing-card">
+          <div class="listing-image">
+            <div style="height: 160px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-truck" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Transport Service</h3>
+              <div class="listing-price">KES 2,000 / trip</div>
+            </div>
+            <div class="listing-description">
+              Reliable transportation service for agricultural produce. 3-ton truck available.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">PM</div>
+                <div class="seller-name">Peter Mwangi</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Nairobi
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline btn-small">View</button>
+              <button class="btn btn-primary btn-small">Book</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listing 5 -->
+        <div class="listing-card">
+          <div class="listing-image">
+            <div style="height: 160px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+              <i class="fas fa-warehouse" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+            </div>
+          </div>
+          <div class="listing-content">
+            <div class="listing-header">
+              <h3 class="listing-title">Storage Space</h3>
+              <div class="listing-price">KES 5,000 / month</div>
+            </div>
+            <div class="listing-description">
+              Clean, dry storage space for grains and produce. 50 sq. meters available.
+            </div>
+            <div class="listing-meta">
+              <div class="listing-seller">
+                <div class="seller-avatar">LW</div>
+                <div class="seller-name">Lucy Wangari</div>
+              </div>
+              <div class="listing-location">
+                <i class="fas fa-map-marker-alt"></i> Kitale
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-outline btn-small">View</button>
+              <button class="btn btn-primary btn-small">Rent</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listing 6 -->
+        <div class="listing-card">
+          <div class="listing-image">
+            <div style="height: 160px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: var(--

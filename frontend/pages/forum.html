@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Forum - AgriBundance</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/forum.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <img src="/frontend/ASSETS/images/WhatsApp Image 2025-02-21 at 23.37.06_62330f14.jpg" alt="Logo" style="height: 30px; margin-right: 10px;"> AgriBundance
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="members.html">My Profile</a></li>
+          <li id="notificationDropdown" style="position: relative;">
+            <a href="#" id="notificationToggle">
+              <i class="fas fa-bell"></i>
+              <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; font-size: 10px; display: flex; align-items: center; justify-content: center;">3</span>
+            </a>
+            <div id="notificationContainer" style="position: absolute; top: 100%; right: -10px; width: 300px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); z-index: 100; display: none;">
+              <!-- Notification content similar to dashboard.html -->
+            </div>
+          </li>
+          <li>
+            <div class="user-dropdown" style="position: relative;">
+              <a href="#" id="userDropdownToggle" style="display: flex; align-items: center;">
+                <div id="userInitials" style="width: 30px; height: 30px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; margin-right: 5px;">JD</div>
+                <span id="userName">John Doe</span>
+                <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: 0.8rem;"></i>
+              </a>
+              <div id="userDropdownMenu" style="position: absolute; top: 100%; right: 0; width: 200px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); z-index: 100; display: none;">
+                <!-- User dropdown content similar to dashboard.html -->
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div id="sidebarUserInitials" style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 10px;">JD</div>
+        <h3 id="sidebarUserName">John Doe</h3>
+        <p id="membershipId" style="color: var(--text-light); font-size: 0.8rem;">Member ID: #12345</p>
+      </div>
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item">
+          <a href="dashboard.html">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="savings.html">
+            <i class="fas fa-piggy-bank"></i> Savings
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="loans.html">
+            <i class="fas fa-hand-holding-usd"></i> Loans
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="finance.html">
+            <i class="fas fa-money-bill-wave"></i> Financial
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="marketplace.html">
+            <i class="fas fa-store"></i> Marketplace
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="resources.html">
+            <i class="fas fa-tractor"></i> Resources
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="forum.html" class="active">
+            <i class="fas fa-users"></i> Forum
+          </a>
+        </div>
+        <div class="sidebar-menu-item">
+          <a href="consultations.html">
+            <i class="fas fa-user-md"></i> Consultations
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-title">Community Forum</h1>
+          <p style="color: var(--text-light);">Connect with other farmers, share knowledge, and learn from the community</p>
+        </div>
+        <div class="dashboard-actions">
+          <button class="btn btn-primary" id="createPostBtn">
+            <i class="fas fa-plus"></i> Create New Post
+          </button>
+        </div>
+      </div>
+
+      <!-- Forum Content -->
+      <div class="forum-container">
+        <!-- Left Section: Topics and Categories -->
+        <div class="forum-sidebar">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Categories</h3>
+            </div>
+            <div class="card-body">
+              <ul class="category-list">
+                <li class="category-item active">
+                  <a href="#" class="category-link">
+                    <i class="fas fa-th-large"></i>
+                    <span>All Topics</span>
+                    <span class="category-count">124</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <i class="fas fa-seedling"></i>
+                    <span>Crop Farming</span>
+                    <span class="category-count">56</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <i class="fas fa-cow"></i>
+                    <span>Livestock</span>
+                    <span class="category-count">32</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <i class="fas fa-tractor"></i>
+                    <span>Equipment & Tech</span>
+                    <span class="category-count">18</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Market Prices</span>
+                    <span class="category-count">12</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <i class="fas fa-bug"></i>
+                    <span>Pest Control</span>
+                    <span class="category-count">24</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <span>Financial Tips</span>
+                    <span class="category-count">16</span>
+                  </a>
+                </li>
+                <li class="category-item">
+                  <a href="#" class="category-link">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Success Stories</span>
+                    <span class="category-count">22</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Popular Tags</h3>
+            </div>
+            <div class="card-body">
+              <div class="tag-cloud">
+                <a href="#" class="tag">Maize</a>
+                <a href="#" class="tag">Irrigation</a>
+                <a href="#" class="tag">Organic</a>
+                <a href="#" class="tag">Prices</a>
+                <a href="#" class="tag">Dairy</a>
+                <a href="#" class="tag">Fertilizer</a>
+                <a href="#" class="tag">Poultry</a>
+                <a href="#" class="tag">Seeds</a>
+                <a href="#" class="tag">Tomatoes</a>
+                <a href="#" class="tag">Marketing</a>
+                <a href="#" class="tag">Technology</a>
+                <a href="#" class="tag">Weather</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Top Contributors</h3>
+            </div>
+            <div class="card-body">
+              <ul class="contributor-list">
+                <li class="contributor-item">
+                  <div class="contributor-avatar">MK</div>
+                  <div class="contributor-info">
+                    <div class="contributor-name">Mary Kamau</div>
+                    <div class="contributor-stats">56 posts · 320 upvotes</div>
+                  </div>
+                </li>
+                <li class="contributor-item">
+                  <div class="contributor-avatar">JO</div>
+                  <div class="contributor-info">
+                    <div class="contributor-name">James Odhiambo</div>
+                    <div class="contributor-stats">42 posts · 287 upvotes</div>
+                  </div>
+                </li>
+                <li class="contributor-item">
+                  <div class="contributor-avatar">SW</div>
+                  <div class="contributor-info">
+                    <div class="contributor-name">Sarah Wanjiku</div>
+                    <div class="contributor-stats">38 posts · 245 upvotes</div>
+                  </div>
+                </li>
+                <li class="contributor-item">
+                  <div class="contributor-avatar">DM</div>
+                  <div class="contributor-info">
+                    <div class="contributor-name">David Mutua</div>
+                    <div class="contributor-stats">31 posts · 198 upvotes</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Section: Posts and Threads -->
+        <div class="forum-content">
+          <!-- Forum Header with search and filters -->
+          <div class="forum-header">
+            <div class="search-bar">
+              <input type="text" placeholder="Search forum topics..." class="form-control">
+              <button class="btn btn-icon"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="forum-filters">
+              <select class="form-control" id="sortFilter">
+                <option value="recent">Most Recent</option>
+                <option value="popular">Most Popular</option>
+                <option value="commented">Most Commented</option>
+                <option value="oldest">Oldest First</option>
+              </select>
+              <select class="form-control" id="timeFilter">
+                <option value="all">All Time</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Forum Topics List -->
+          <div class="topics-list">
+            <!-- Topic Item 1 -->
+            <div class="topic-item">
+              <div class="topic-votes">
+                <button class="vote-btn upvote"><i class="fas fa-arrow-up"></i></button>
+                <div class="vote-count">32</div>
+                <button class="vote-btn downvote"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="topic-main">
+                <div class="topic-header">
+                  <h3 class="topic-title"><a href="#">Market prices for maize this season</a></h3>
+                  <div class="topic-badges">
+                    <span class="badge badge-primary">Market Prices</span>
+                    <span class="badge badge-success">Trending</span>
+                  </div>
+                </div>
+                <div class="topic-meta">
+                  <span class="topic-author">Posted by: David M.</span>
+                  <span class="topic-date">3 days ago</span>
+                  <span class="topic-comments"><i class="fas fa-comment"></i> 24 comments</span>
+                  <span class="topic-views"><i class="fas fa-eye"></i> 128 views</span>
+                </div>
+                <div class="topic-excerpt">
+                  I've been tracking maize prices at different markets in the region for the past month. Prices seem to be higher than last season. Has anyone else noticed this trend? I'm considering holding my harvest for another few weeks to see if...
+                </div>
+                <div class="topic-actions">
+                  <a href="#" class="btn btn-small btn-outline">Read More</a>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-bookmark"></i></button>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-share-alt"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Topic Item 2 -->
+            <div class="topic-item">
+              <div class="topic-votes">
+                <button class="vote-btn upvote"><i class="fas fa-arrow-up"></i></button>
+                <div class="vote-count">15</div>
+                <button class="vote-btn downvote"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="topic-main">
+                <div class="topic-header">
+                  <h3 class="topic-title"><a href="#">How to control aphids naturally?</a></h3>
+                  <div class="topic-badges">
+                    <span class="badge badge-primary">Pest Control</span>
+                  </div>
+                </div>
+                <div class="topic-meta">
+                  <span class="topic-author">Posted by: John K.</span>
+                  <span class="topic-date">1 day ago</span>
+                  <span class="topic-comments"><i class="fas fa-comment"></i> 8 comments</span>
+                  <span class="topic-views"><i class="fas fa-eye"></i> 57 views</span>
+                </div>
+                <div class="topic-excerpt">
+                  My vegetable garden is struggling with aphids this season. I'd like to avoid chemical pesticides if possible. Has anyone had success with natural methods? I've tried a soap spray but it only worked temporarily. Looking for more sustainable...
+                </div>
+                <div class="topic-actions">
+                  <a href="#" class="btn btn-small btn-outline">Read More</a>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-bookmark"></i></button>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-share-alt"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Topic Item 3 -->
+            <div class="topic-item featured">
+              <div class="topic-votes">
+                <button class="vote-btn upvote"><i class="fas fa-arrow-up"></i></button>
+                <div class="vote-count">42</div>
+                <button class="vote-btn downvote"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="topic-main">
+                <div class="topic-header">
+                  <h3 class="topic-title"><a href="#">Best practices for tomato farming</a></h3>
+                  <div class="topic-badges">
+                    <span class="badge badge-primary">Crop Farming</span>
+                    <span class="badge badge-warning">Featured</span>
+                  </div>
+                </div>
+                <div class="topic-meta">
+                  <span class="topic-author">Posted by: Mary W.</span>
+                  <span class="topic-date">2 hours ago</span>
+                  <span class="topic-comments"><i class="fas fa-comment"></i> 12 comments</span>
+                  <span class="topic-views"><i class="fas fa-eye"></i> 89 views</span>
+                </div>
+                <div class="topic-excerpt">
+                  I've been growing tomatoes for five years now and have learned a lot through trial and error. I want to share some best practices that have helped me increase yields by over 40% in the last two seasons. My approach focuses on soil preparation, proper staking, and...
+                </div>
+                <div class="topic-actions">
+                  <a href="#" class="btn btn-small btn-outline">Read More</a>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-bookmark"></i></button>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-share-alt"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Topic Item 4 -->
+            <div class="topic-item">
+              <div class="topic-votes">
+                <button class="vote-btn upvote"><i class="fas fa-arrow-up"></i></button>
+                <div class="vote-count">9</div>
+                <button class="vote-btn downvote"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="topic-main">
+                <div class="topic-header">
+                  <h3 class="topic-title"><a href="#">Recommendations for dairy cow feeds</a></h3>
+                  <div class="topic-badges">
+                    <span class="badge badge-primary">Livestock</span>
+                  </div>
+                </div>
+                <div class="topic-meta">
+                  <span class="topic-author">Posted by: Alice N.</span>
+                  <span class="topic-date">4 days ago</span>
+                  <span class="topic-comments"><i class="fas fa-comment"></i> 6 comments</span>
+                  <span class="topic-views"><i class="fas fa-eye"></i> 42 views</span>
+                </div>
+                <div class="topic-excerpt">
+                  I recently started with two dairy cows and am looking for advice on the best feed combinations for maximum milk production. Currently, I'm using a mix of napier grass and commercial dairy meal, but I'm wondering if there are better alternatives that might be more cost-effective without...
+                </div>
+                <div class="topic-actions">
+                  <a href="#" class="btn btn-small btn-outline">Read More</a>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-bookmark"></i></button>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-share-alt"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Topic Item 5 -->
+            <div class="topic-item">
+              <div class="topic-votes">
+                <button class="vote-btn upvote"><i class="fas fa-arrow-up"></i></button>
+                <div class="vote-count">18</div>
+                <button class="vote-btn downvote"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="topic-main">
+                <div class="topic-header">
+                  <h3 class="topic-title"><a href="#">Affordable drip irrigation systems</a></h3>
+                  <div class="topic-badges">
+                    <span class="badge badge-primary">Equipment & Tech</span>
+                  </div>
+                </div>
+                <div class="topic-meta">
+                  <span class="topic-author">Posted by: Robert O.</span>
+                  <span class="topic-date">1 week ago</span>
+                  <span class="topic-comments"><i class="fas fa-comment"></i> 14 comments</span>
+                  <span class="topic-views"><i class="fas fa-eye"></i> 105 views</span>
+                </div>
+                <div class="topic-excerpt">
+                  With the increasingly unpredictable rainfall, I've been looking into affordable drip irrigation solutions for my one-acre vegetable farm. Has anyone installed a DIY system? I've seen some tutorials online using simple pipes and buckets, but I'm not sure if they're effective enough for...
+                </div>
+                <div class="topic-actions">
+                  <a href="#" class="btn btn-small btn-outline">Read More</a>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-bookmark"></i></button>
+                  <button class="btn btn-small btn-icon"><i class="fas fa-share-alt"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button class="btn btn-icon btn-pagination"><i class="fas fa-chevron-left"></i></button>
+            <button class="btn btn-pagination active">1</button>
+            <button class="btn btn-pagination">2</button>
+            <button class="btn btn-pagination">3</button>
+            <button class="btn btn-pagination">4</button>
+            <button class="btn btn-pagination">5</button>
+            <button class="btn btn-icon btn-pagination"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Post Modal -->
+      <div id="createPostModal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Create New Post</h3>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <form id="postForm">
+              <div class="form-group">
+                <label for="postTitle">Title</label>
+                <input type="text" id="postTitle" class="form-control" placeholder="Enter a descriptive title for your post" required>
+              </div>
+              <div class="form-group">
+                <label for="postCategory">Category</label>
+                <select id="postCategory" class="form-control" required>
+                  <option value="">-- Select Category --</option>
+                  <option value="crops">Crop Farming</option>
+                  <option value="livestock">Livestock</option>
+                  <option value="equipment">Equipment & Tech</option>
+                  <option value="market">Market Prices</option>
+                  <option value="pest">Pest Control</option>
+                  <option value="financial">Financial Tips</option>
+                  <option value="success">Success Stories</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="postTags">Tags (separate with commas)</label>
+                <input type="text" id="postTags" class="form-control" placeholder="e.g., maize, irrigation, organic">
+              </div>
+              <div class="form-group">
+                <label for="postContent">Content</label>
+                <textarea id="postContent" class="form-control" rows="10" placeholder="Share your question, knowledge, or experience..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label>Attachments (optional)</label>
+                <div class="file-upload">
+                  <input type="file" id="postAttachments" multiple>
+                  <label for="postAttachments" class="btn btn-outline">
+                    <i class="fas fa-paperclip"></i> Add Files
+                  </label>
+                  <div class="upload-hint">You can upload images or documents (Max 5MB each)</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Post</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/forum.js"></script>
+</body>
+</html>
