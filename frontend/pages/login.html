@@ -102,45 +102,7 @@
     });
 
     
-      document.addEventListener('DOMContentLoaded', function() {
-        // Function to get user data from session/local storage or API
-        function getCurrentUser() {
-          // This would typically be a fetch to your backend or reading from storage
-          // For demonstration, we're returning mock data
-          return {
-            firstName: "Mary",
-            lastName: "Smith",
-            memberId: "#54321",
-            // Add other user properties as needed
-          };
-        }
-        
-        // Function to update the sidebar with user information
-        function updateUserSidebar() {
-          const user = getCurrentUser();
-          const fullName = ${user.firstName} ${user.lastName};
-          
-          // Update name and member ID
-          document.getElementById('sidebarUserName').textContent = fullName;
-          document.getElementById('membershipId').textContent = Member ID: ${user.memberId};
-          
-          // Update initials
-          const initials = user.firstName.charAt(0) + user.lastName.charAt(0);
-          document.getElementById('sidebarUserInitials').textContent = initials;
-          
-          // Also update the header user info if present
-          if (document.getElementById('userName')) {
-            document.getElementById('userName').textContent = fullName;
-          }
-          if (document.getElementById('userInitials')) {
-            document.getElementById('userInitials').textContent = initials;
-          }
-        }
-        
-        // Call the function to update the sidebar
-        updateUserSidebar();
-      });
-    
+      
 
 
   </script>
