@@ -13,7 +13,7 @@ process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`);
 
   // server.js or app.js
-// This should be after all your routes
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

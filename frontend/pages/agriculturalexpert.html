@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Expert Dashboard | AgriSacco</title>
+    <link rel="stylesheet" href="../ASSETS/css/agriculturalexpert.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="images/sacco-logo.png" alt="Sacco Logo">
+                <h2>AgriSacco</h2>
+            </div>
+            <nav class="side-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#consultations"><i class="fas fa-calendar-check"></i> Consultations</a>
+                    </li>
+                    <li>
+                        <a href="#forum"><i class="fas fa-comments"></i> Community Forum</a>
+                    </li>
+                    <li>
+                        <a href="#knowledge-base"><i class="fas fa-book"></i> Knowledge Base</a>
+                    </li>
+                    <li>
+                        <a href="#loan-reviews"><i class="fas fa-file-invoice-dollar"></i> Loan Reviews</a>
+                    </li>
+                    <li>
+                        <a href="#market-insight"><i class="fas fa-chart-line"></i> Market Insights</a>
+                    </li>
+                    <li>
+                        <a href="#success-stories"><i class="fas fa-star"></i> Success Stories</a>
+                    </li>
+                    <li>
+                        <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="expert-profile">
+                <img src="images/expert-avatar.png" alt="Expert">
+                <div>
+                    <h4>Dr. Jane Smith</h4>
+                    <span class="expert-title">Agricultural Expert</span>
+                    <a href="#logout">Logout</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navigation Bar -->
+            <header class="top-bar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="top-nav-actions">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">7</span>
+                    </div>
+                    <div class="message-icon">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge">5</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="dashboard-header">
+                    <h1>Expert Dashboard</h1>
+                    <p>Welcome back, Dr. Smith! Here's an overview of your expert activities.</p>
+                </div>
+
+                <!-- Dashboard Quick Stats -->
+                <section class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-card-icon consultations-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-card-info">
+                            <h3>Today's Consultations</h3>
+                            <h2>5</h2>
+                            <p>Next at <span class="highlight">10:30 AM</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon forum-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="stat-card-info">
+                            <h3>Forum Contributions</h3>
+                            <h2>124</h2>
+                            <p><span class="positive">+12</span> this week</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon loans-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <div class="stat-card-info">
+                            <h3>Loan Reviews Pending</h3>
+                            <h2>8</h2>
+                            <p><span class="negative">+3</span> from yesterday</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon members-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-card-info">
+                            <h3>Members Helped</h3>
+                            <h2>1,458</h2>
+                            <p><span class="positive">+15%</span> from last month</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Upcoming Consultations Section -->
+                <section class="consultations">
+                    <div class="section-header">
+                        <h2>Today's Consultations</h2>
+                        <a href="#view-all" class="view-all-link">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Member</th>
+                                    <th>Topic</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>09:00 AM</td>
+                                    <td>John Mwangi</td>
+                                    <td>Crop Rotation Strategies</td>
+                                    <td>Video Call</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                    <td>
+                                        <button class="btn-action view-notes">View Notes</button>
+                                    </td>
+                                </tr>
+                                <tr class="current-row">
+                                    <td>10:30 AM</td>
+                                    <td>Sarah Kamau</td>
+                                    <td>Irrigation Systems for Small Farms</td>
+                                    <td>In Person</td>
+                                    <td><span class="status upcoming">Upcoming</span></td>
+                                    <td>
+                                        <button class="btn-action start">Start</button>
+                                        <button class="btn-action reschedule">Reschedule</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>01:15 PM</td>
+                                    <td>Michael Odhiambo</td>
+                                    <td>Pest Management for Maize</td>
+                                    <td>Phone Call</td>
+                                    <td><span class="status upcoming">Upcoming</span></td>
+                                    <td>
+                                        <button class="btn-action prepare">Prepare</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>03:00 PM</td>
+                                    <td>Esther Ndung'u</td>
+                                    <td>Soil Testing Results Review</td>
+                                    <td>Video Call</td>
+                                    <td><span class="status upcoming">Upcoming</span></td>
+                                    <td>
+                                        <button class="btn-action prepare">Prepare</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>04:30 PM</td>
+                                    <td>Daniel Njoroge</td>
+                                    <td>Farm Equipment Selection</td>
+                                    <td>Video Call</td>
+                                    <td><span class="status upcoming">Upcoming</span></td>
+                                    <td>
+                                        <button class="btn-action prepare">Prepare</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Active Forum Discussions Section -->
+                <section class="forum-discussions">
+                    <div class="section-header">
+                        <h2>Active Forum Discussions</h2>
+                        <a href="#view-all" class="view-all-link">View Forum</a>
+                    </div>
+                    <div class="forum-list">
+                        <div class="forum-item">
+                            <div class="forum-item-header">
+                                <h3>Drought Resistant Crops for Eastern Region</h3>
+                                <span class="forum-tag">Hot Topic</span>
+                            </div>
+                            <p>Members discussing which crops perform best during dry seasons in the eastern regions. Several questions about millet and sorghum varieties.</p>
+                            <div class="forum-item-footer">
+                                <div class="forum-stats">
+                                    <span><i class="fas fa-comment"></i> 24 responses</span>
+                                    <span><i class="fas fa-user"></i> 18 participants</span>
+                                </div>
+                                <button class="btn-action respond">Respond</button>
+                            </div>
+                        </div>
+                        <div class="forum-item">
+                            <div class="forum-item-header">
+                                <h3>Cost-effective Irrigation Solutions</h3>
+                                <span class="forum-tag">Expert Needed</span>
+                            </div>
+                            <p>Discussion about affordable irrigation options for small-scale farmers. Several members asking about drip irrigation systems.</p>
+                            <div class="forum-item-footer">
+                                <div class="forum-stats">
+                                    <span><i class="fas fa-comment"></i> 17 responses</span>
+                                    <span><i class="fas fa-user"></i> 12 participants</span>
+                                </div>
+                                <button class="btn-action respond">Respond</button>
+                            </div>
+                        </div>
+                        <div class="forum-item">
+                            <div class="forum-item-header">
+                                <h3>Organic Pest Control Methods</h3>
+                                <span class="forum-tag">Growing</span>
+                            </div>
+                            <p>Members sharing traditional and modern organic methods for pest control. Significant interest in neem-based solutions.</p>
+                            <div class="forum-item-footer">
+                                <div class="forum-stats">
+                                    <span><i class="fas fa-comment"></i> 32 responses</span>
+                                    <span><i class="fas fa-user"></i> 27 participants</span>
+                                </div>
+                                <button class="btn-action respond">Respond</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Loan Reviews Section -->
+                <section class="loan-reviews">
+                    <div class="section-header">
+                        <h2>Pending Loan Technical Reviews</h2>
+                        <a href="#view-all" class="view-all-link">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Member</th>
+                                    <th>Loan Purpose</th>
+                                    <th>Amount</th>
+                                    <th>Submission Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>LR-2345</td>
+                                    <td>Francis Kimani</td>
+                                    <td>Tractor Purchase - John Deere 5050D</td>
+                                    <td>$15,000</td>
+                                    <td>Mar 20, 2025</td>
+                                    <td>
+                                        <button class="btn-action review">Review</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>LR-2346</td>
+                                    <td>Grace Wanjiku</td>
+                                    <td>Greenhouse Construction - 10x20m</td>
+                                    <td>$8,500</td>
+                                    <td>Mar 20, 2025</td>
+                                    <td>
+                                        <button class="btn-action review">Review</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>LR-2347</td>
+                                    <td>Joseph Ochieng</td>
+                                    <td>Irrigation System - Drip for 5 acres</td>
+                                    <td>$3,200</td>
+                                    <td>Mar 21, 2025</td>
+                                    <td>
+                                        <button class="btn-action review">Review</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>LR-2348</td>
+                                    <td>Mary Nduta</td>
+                                    <td>Poultry Farm Expansion - 500 layers</td>
+                                    <td>$4,700</td>
+                                    <td>Mar 22, 2025</td>
+                                    <td>
+                                        <button class="btn-action review">Review</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Knowledge Base Articles -->
+                <section class="knowledge-base">
+                    <div class="section-header">
+                        <h2>Recent Knowledge Base Articles</h2>
+                        <a href="#create-new" class="btn-create">Create New</a>
+                    </div>
+                    <div class="article-list">
+                        <div class="article-item">
+                            <div class="article-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="article-details">
+                                <h3>Seasonal Planting Guide: March-June 2025</h3>
+                                <p>Comprehensive guide to what crops to plant during the long rains season.</p>
+                                <div class="article-meta">
+                                    <span><i class="fas fa-eye"></i> 342 views</span>
+                                    <span><i class="fas fa-calendar"></i> Published: Mar 15, 2025</span>
+                                </div>
+                            </div>
+                            <div class="article-actions">
+                                <button class="btn-action edit">Edit</button>
+                            </div>
+                        </div>
+                        <div class="article-item">
+                            <div class="article-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="article-details">
+                                <h3>Soil Health: Testing and Improvement Methods</h3>
+                                <p>Guide on how members can test their soil quality and methods to improve soil health.</p>
+                                <div class="article-meta">
+                                    <span><i class="fas fa-eye"></i> 289 views</span>
+                                    <span><i class="fas fa-calendar"></i> Published: Mar 10, 2025</span>
+                                </div>
+                            </div>
+                            <div class="article-actions">
+                                <button class="btn-action edit">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="scripts/expert.js"></script>
+</body>
+</html>
