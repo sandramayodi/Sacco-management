@@ -72,7 +72,7 @@ const MemberSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['member', 'admin'],
+    enum: ['member', 'admin','agricultural-expert'],
     default: 'member'
   },
   verified: {

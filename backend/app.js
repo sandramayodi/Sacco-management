@@ -5,7 +5,12 @@ const path = require('path');
 const connectDB = require('./config/db');
 const config = require('./config/config');
 const errorHandler = require('./middleware/error');
-
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 // Import routes
 const memberRoutes = require('./routes/memberRoutes');
@@ -14,13 +19,24 @@ const loanRoutes = require('./routes/loanRoutes');
 const financialRoutes = require('./routes/financialRoutes');
 const agricultureRoutes = require('./routes/agricultureRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const expertRoutes = require('./routes/expertRoutes');
 
 // Connect to database
 connectDB();
 
 const app = express();
 
+// Security middleware
+app.use(helmet()); // Set security HTTP headers
+app.use(mongoSanitize()); // Data sanitization against NoSQL query injection
+app.use(xss()); // Data sanitization against XSS
+app.use(hpp()); // Prevent HTTP parameter pollution
+
+
+
 // Middleware
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
@@ -46,7 +62,8 @@ app.use('/api/loans', loanRoutes);
 app.use('/api/financial', financialRoutes);
 app.use('/api/agriculture', agricultureRoutes);
 app.use('/api/notifications', notificationRoutes);
-
+app.use('/api/admin', adminRoutes);
+app.use('/api/expert', expertRoutes);
 // For any other route, serve the frontend
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../frontend/pages/index.html'));
@@ -54,8 +71,13 @@ app.get('*', (req, res) => {
 
 // Error handling middleware
 app.use(errorHandler);
-// server.js or app.js
-// This should be after all your routes
+
+app.all('*', (req, res, next) => {
+  const err = new Error(`Can't find ${req.originalUrl} on this server!`);
+  err.status = 'fail';
+  err.statusCode = 404;
+  next(err);
+});
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
