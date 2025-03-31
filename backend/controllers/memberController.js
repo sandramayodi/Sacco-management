@@ -1,24 +1,24 @@
 // controllers/memberController.js
-const Member = require('../models/Member');
-const Transaction = require('../models/Transaction');
+const Member = require("../models/Member");
+const Transaction = require("../models/Transaction");
 
 // @desc    Register member
 // @route   POST /api/members/register
 // @access  Public
 exports.registerMember = async (req, res, next) => {
   try {
-    const { 
-      firstName, 
-      lastName, 
-      email, 
-      phone, 
-      password, 
-      nationalId, 
-      address, 
-      farmSize, 
-      farmLocation, 
-      mainCrops, 
-      mainLivestock 
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      password,
+      nationalId,
+      address,
+      farmSize,
+      farmLocation,
+      mainCrops,
+      mainLivestock,
     } = req.body;
 
     // Check if member exists
@@ -27,7 +27,7 @@ exports.registerMember = async (req, res, next) => {
     if (memberExists) {
       return res.status(400).json({
         success: false,
-        error: 'Member with this email already exists'
+        error: "Member with this email already exists",
       });
     }
 
@@ -43,7 +43,7 @@ exports.registerMember = async (req, res, next) => {
       farmSize,
       farmLocation,
       mainCrops,
-      mainLivestock
+      mainLivestock,
     });
 
     // Create token
@@ -52,7 +52,7 @@ exports.registerMember = async (req, res, next) => {
     res.status(201).json({
       success: true,
       token,
-      data: member
+      data: member,
     });
   } catch (err) {
     next(err);
@@ -70,17 +70,17 @@ exports.loginMember = async (req, res, next) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        error: 'Please provide an email and password'
+        error: "Please provide an email and password",
       });
     }
 
     // Check for member
-    const member = await Member.findOne({ email }).select('+password');
+    const member = await Member.findOne({ email }).select("+password");
 
     if (!member) {
       return res.status(401).json({
         success: false,
-        error: 'Invalid credentials'
+        error: "Invalid credentials",
       });
     }
 
@@ -90,7 +90,7 @@ exports.loginMember = async (req, res, next) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        error: 'Invalid credentials'
+        error: "Invalid credentials",
       });
     }
 
@@ -105,8 +105,9 @@ exports.loginMember = async (req, res, next) => {
         firstName: member.firstName,
         lastName: member.lastName,
         email: member.email,
-        role: member.role
-      }
+        role: member.role,
+        shareCapital: member.shareCapital,
+      },
     });
   } catch (err) {
     next(err);
@@ -122,7 +123,7 @@ exports.getMe = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      data: member
+      data: member,
     });
   } catch (err) {
     next(err);
@@ -150,13 +151,13 @@ exports.updateProfile = async (req, res, next) => {
       fieldsToUpdate,
       {
         new: true,
-        runValidators: true
+        runValidators: true,
       }
     );
 
     res.status(200).json({
       success: true,
-      data: member
+      data: member,
     });
   } catch (err) {
     next(err);
@@ -168,13 +169,13 @@ exports.updateProfile = async (req, res, next) => {
 // @access  Private
 exports.updatePassword = async (req, res, next) => {
   try {
-    const member = await Member.findById(req.member.id).select('+password');
+    const member = await Member.findById(req.member.id).select("+password");
 
     // Check current password
     if (!(await member.matchPassword(req.body.currentPassword))) {
       return res.status(401).json({
         success: false,
-        error: 'Current password is incorrect'
+        error: "Current password is incorrect",
       });
     }
 
@@ -186,7 +187,7 @@ exports.updatePassword = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      token
+      token,
     });
   } catch (err) {
     next(err);
@@ -208,19 +209,19 @@ exports.addShareCapital = async (req, res, next) => {
     // Create transaction record
     await Transaction.create({
       member: req.member.id,
-      transactionType: 'share-purchase',
+      transactionType: "share-purchase",
       amount,
       reference: transactionReference,
       paymentMethod,
-      status: 'completed',
-      description: 'Share capital contribution'
+      status: "completed",
+      description: "Share capital contribution",
     });
 
     res.status(200).json({
       success: true,
       data: {
-        currentShareCapital: member.shareCapital
-      }
+        currentShareCapital: member.shareCapital,
+      },
     });
   } catch (err) {
     next(err);
@@ -237,7 +238,7 @@ exports.getMembers = async (req, res, next) => {
     res.status(200).json({
       success: true,
       count: members.length,
-      data: members
+      data: members,
     });
   } catch (err) {
     next(err);
@@ -254,13 +255,13 @@ exports.getMember = async (req, res, next) => {
     if (!member) {
       return res.status(404).json({
         success: false,
-        error: 'Member not found'
+        error: "Member not found",
       });
     }
 
     res.status(200).json({
       success: true,
-      data: member
+      data: member,
     });
   } catch (err) {
     next(err);
@@ -277,7 +278,7 @@ exports.verifyMember = async (req, res, next) => {
     if (!member) {
       return res.status(404).json({
         success: false,
-        error: 'Member not found'
+        error: "Member not found",
       });
     }
 
@@ -286,7 +287,7 @@ exports.verifyMember = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      data: member
+      data: member,
     });
   } catch (err) {
     next(err);

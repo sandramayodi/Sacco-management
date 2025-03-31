@@ -40,4 +40,6 @@ router.get("/system/audit-logs", adminController.getAuditLogs);
 router.post("/system/backup", adminController.createBackup);
 router.post("/system/restore", adminController.restoreBackup);
 
+router.get("/loans/pending", adminController.getPendingLoans);
+
 module.exports = router;

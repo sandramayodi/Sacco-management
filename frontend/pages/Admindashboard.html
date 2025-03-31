@@ -1,270 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sacco Admin Dashboard</title>
-    <link rel="stylesheet" href="../ASSETS/css/admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../ASSETS/css/admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="logo">
-                <img src="/frontend/ASSETS/images/WhatsApp Image 2025-03-26 at 23.11.24_0f7351a3.jpg" alt="Sacco Logo">
-                <h2>AgriBundance</h2>
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <div class="logo">
+          <img
+            src="/frontend/ASSETS/images/WhatsApp Image 2025-03-26 at 23.11.24_0f7351a3.jpg"
+            alt="Sacco Logo"
+          />
+          <h2>AgriBundance</h2>
+        </div>
+        <nav class="side-nav">
+          <ul>
+            <li class="active">
+              <a href="#dashboard"
+                ><i class="fas fa-tachometer-alt"></i> Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="#members"
+                ><i class="fas fa-users"></i> Member Management</a
+              >
+            </li>
+            <li>
+              <a href="#savings"
+                ><i class="fas fa-piggy-bank"></i> Savings Management</a
+              >
+            </li>
+            <li>
+              <a href="#loans"
+                ><i class="fas fa-hand-holding-usd"></i> Loan Management</a
+              >
+            </li>
+            <li>
+              <a href="#finance"
+                ><i class="fas fa-chart-line"></i> Financial Operations</a
+              >
+            </li>
+            <li>
+              <a href="#agri-support"
+                ><i class="fas fa-seedling"></i> Agri Support</a
+              >
+            </li>
+            <li>
+              <a href="#notifications"
+                ><i class="fas fa-bell"></i> Notifications</a
+              >
+            </li>
+            <li>
+              <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="admin-profile">
+          <img
+            src="/frontend/ASSETS/images/WhatsApp Image 2025-03-26 at 23.28.53_cb47985c.jpg"
+            alt="Admin"
+          />
+          <div>
+            <h4 id="admin-name">Admin Name</h4>
+            <a href="#logout" id="logout-btn">Logout</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Top Navigation Bar -->
+        <header class="top-bar">
+          <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search..." />
+          </div>
+          <div class="top-nav-actions">
+            <div class="notification-bell">
+              <i class="fas fa-bell"></i>
+              <span class="badge" id="notification-count">0</span>
             </div>
-            <nav class="side-nav">
-                <ul>
-                    <li class="active">
-                        <a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#members"><i class="fas fa-users"></i> Member Management</a>
-                    </li>
-                    <li>
-                        <a href="#savings"><i class="fas fa-piggy-bank"></i> Savings Management</a>
-                    </li>
-                    <li>
-                        <a href="#loans"><i class="fas fa-hand-holding-usd"></i> Loan Management</a>
-                    </li>
-                    <li>
-                        <a href="#finance"><i class="fas fa-chart-line"></i> Financial Operations</a>
-                    </li>
-                    <li>
-                        <a href="#agri-support"><i class="fas fa-seedling"></i> Agri Support</a>
-                    </li>
-                    <li>
-                        <a href="#notifications"><i class="fas fa-bell"></i> Notifications</a>
-                    </li>
-                    <li>
-                        <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="admin-profile">
-                <img src="/frontend/ASSETS/images/WhatsApp Image 2025-03-26 at 23.28.53_cb47985c.jpg" alt="Admin">
-                <div>
-                    <h4>Admin Name</h4>
-                    <a href="#logout">Logout</a>
-                </div>
+            <div class="message-icon">
+              <i class="fas fa-envelope"></i>
+              <span class="badge" id="message-count">0</span>
             </div>
-        </aside>
+          </div>
+        </header>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Top Navigation Bar -->
-            <header class="top-bar">
-                <div class="search-container">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
-                </div>
-                <div class="top-nav-actions">
-                    <div class="notification-bell">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">5</span>
-                    </div>
-                    <div class="message-icon">
-                        <i class="fas fa-envelope"></i>
-                        <span class="badge">3</span>
-                    </div>
-                </div>
-            </header>
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+          <div class="dashboard-header">
+            <h1>Admin Dashboard</h1>
+            <p>
+              Welcome back, <span id="admin-welcome-name">Admin</span>! Here's
+              what's happening with your Sacco today.
+            </p>
+          </div>
 
-            <!-- Dashboard Content -->
-            <div class="dashboard-content">
-                <div class="dashboard-header">
-                    <h1>Admin Dashboard</h1>
-                    <p>Welcome back, Admin! Here's what's happening with your Sacco today.</p>
-                </div>
-
-                <!-- Dashboard Quick Stats -->
-                <section class="stats-cards">
-                    <div class="stat-card">
-                        <div class="stat-card-icon members-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-card-info">
-                            <h3>Total Members</h3>
-                            <h2>2,546</h2>
-                            <p><span class="positive">+15%</span> from last month</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-icon savings-icon">
-                            <i class="fas fa-piggy-bank"></i>
-                        </div>
-                        <div class="stat-card-info">
-                            <h3>Total Savings</h3>
-                            <h2>$1,245,678</h2>
-                            <p><span class="positive">+8.3%</span> from last month</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-icon loans-icon">
-                            <i class="fas fa-hand-holding-usd"></i>
-                        </div>
-                        <div class="stat-card-info">
-                            <h3>Active Loans</h3>
-                            <h2>876</h2>
-                            <p><span class="positive">+5.2%</span> from last month</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-icon market-icon">
-                            <i class="fas fa-store"></i>
-                        </div>
-                        <div class="stat-card-info">
-                            <h3>Marketplace</h3>
-                            <h2>152</h2>
-                            <p><span class="positive">+12%</span> active listings</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Recent Activity Section -->
-                <section class="recent-activity">
-                    <div class="section-header">
-                        <h2>Recent Activity</h2>
-                        <a href="#view-all" class="view-all-link">View All</a>
-                    </div>
-                    <div class="activity-list">
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-user-plus"></i>
-                            </div>
-                            <div class="activity-details">
-                                <h4>New Member Registration</h4>
-                                <p>John Doe has completed registration</p>
-                                <span class="time">2 hours ago</span>
-                            </div>
-                            <div class="activity-action">
-                                <button class="btn-review">Review</button>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-comment-dollar"></i>
-                            </div>
-                            <div class="activity-details">
-                                <h4>Loan Application</h4>
-                                <p>Sarah Smith has applied for a farm equipment loan</p>
-                                <span class="time">4 hours ago</span>
-                            </div>
-                            <div class="activity-action">
-                                <button class="btn-review">Review</button>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-seedling"></i>
-                            </div>
-                            <div class="activity-details">
-                                <h4>New Marketplace Listing</h4>
-                                <p>Alex Johnson added 10 tons of maize for sale</p>
-                                <span class="time">5 hours ago</span>
-                            </div>
-                            <div class="activity-action">
-                                <button class="btn-review">View</button>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </div>
-                            <div class="activity-details">
-                                <h4>Loan Approval</h4>
-                                <p>Robert Brown's seed loan has been approved</p>
-                                <span class="time">1 day ago</span>
-                            </div>
-                            <div class="activity-action">
-                                <button class="btn-review">Details</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Loan Applications Section -->
-                <section class="loan-applications">
-                    <div class="section-header">
-                        <h2>Pending Loan Applications</h2>
-                        <a href="#view-all" class="view-all-link">View All</a>
-                    </div>
-                    <div class="table-container">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Member ID</th>
-                                    <th>Name</th>
-                                    <th>Loan Type</th>
-                                    <th>Amount</th>
-                                    <th>Purpose</th>
-                                    <th>Application Date</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>M2451</td>
-                                    <td>Alice Johnson</td>
-                                    <td>Agricultural</td>
-                                    <td>$5,000</td>
-                                    <td>Tractor Purchase</td>
-                                    <td>15 Mar 2025</td>
-                                    <td><span class="status pending">Pending</span></td>
-                                    <td>
-                                        <button class="btn-action approve">Approve</button>
-                                        <button class="btn-action reject">Reject</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>M1892</td>
-                                    <td>Michael Davis</td>
-                                    <td>Seeds</td>
-                                    <td>$1,200</td>
-                                    <td>Seasonal Planting</td>
-                                    <td>16 Mar 2025</td>
-                                    <td><span class="status pending">Pending</span></td>
-                                    <td>
-                                        <button class="btn-action approve">Approve</button>
-                                        <button class="btn-action reject">Reject</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>M3126</td>
-                                    <td>Emily Wilson</td>
-                                    <td>Equipment</td>
-                                    <td>$3,500</td>
-                                    <td>Irrigation System</td>
-                                    <td>18 Mar 2025</td>
-                                    <td><span class="status pending">Pending</span></td>
-                                    <td>
-                                        <button class="btn-action approve">Approve</button>
-                                        <button class="btn-action reject">Reject</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>M1045</td>
-                                    <td>Daniel Brown</td>
-                                    <td>Agricultural</td>
-                                    <td>$2,800</td>
-                                    <td>Land Preparation</td>
-                                    <td>19 Mar 2025</td>
-                                    <td><span class="status review">Under Review</span></td>
-                                    <td>
-                                        <button class="btn-action details">Details</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+          <!-- Dashboard Quick Stats -->
+          <section class="stats-cards">
+            <!-- Members Card - Will be populated from API -->
+            <div class="stat-card" id="members-card">
+              <div class="stat-card-icon members-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-card-info">
+                <h3>Total Members</h3>
+                <h2 id="total-members">Loading...</h2>
+                <p>
+                  <span id="members-growth" class="positive">0%</span> from last
+                  month
+                </p>
+              </div>
             </div>
-        </main>
+
+            <!-- Savings Card - Will be populated from API -->
+            <div class="stat-card" id="savings-card">
+              <div class="stat-card-icon savings-icon">
+                <i class="fas fa-piggy-bank"></i>
+              </div>
+              <div class="stat-card-info">
+                <h3>Total Savings</h3>
+                <h2 id="total-savings">Loading...</h2>
+                <p>
+                  <span id="savings-growth" class="positive">0%</span> from last
+                  month
+                </p>
+              </div>
+            </div>
+
+            <!-- Loans Card - Will be populated from API -->
+            <div class="stat-card" id="loans-card">
+              <div class="stat-card-icon loans-icon">
+                <i class="fas fa-hand-holding-usd"></i>
+              </div>
+              <div class="stat-card-info">
+                <h3>Active Loans</h3>
+                <h2 id="active-loans">Loading...</h2>
+                <p>
+                  <span id="loans-growth" class="positive">0%</span> from last
+                  month
+                </p>
+              </div>
+            </div>
+
+            <!-- Marketplace Card - Will be populated from API -->
+            <div class="stat-card" id="marketplace-card">
+              <div class="stat-card-icon market-icon">
+                <i class="fas fa-store"></i>
+              </div>
+              <div class="stat-card-info">
+                <h3>Marketplace</h3>
+                <h2 id="marketplace-listings">Loading...</h2>
+                <p>
+                  <span id="marketplace-growth" class="positive">0%</span>
+                  active listings
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Recent Activity Section -->
+          <section class="recent-activity">
+            <div class="section-header">
+              <h2>Recent Activity</h2>
+              <a href="#view-all" class="view-all-link">View All</a>
+            </div>
+            <!-- Activity list will be dynamically populated from API -->
+            <div class="activity-list" id="activity-list">
+              <!-- Loading placeholder -->
+              <div class="activity-item loading-placeholder">
+                <div class="loading-text">Loading recent activities...</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Loan Applications Section -->
+          <section class="loan-applications">
+            <div class="section-header">
+              <h2>Pending Loan Applications</h2>
+              <a href="#view-all" class="view-all-link">View All</a>
+            </div>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Member ID</th>
+                    <th>Name</th>
+                    <th>Loan Type</th>
+                    <th>Amount</th>
+                    <th>Purpose</th>
+                    <th>Application Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <!-- Loan applications will be dynamically populated from API -->
+                <tbody id="loan-applications-tbody">
+                  <tr class="loading-placeholder">
+                    <td colspan="8" class="loading-text">
+                      Loading loan applications...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
     </div>
 
-    <script src="scripts/admin.js"></script>
-</body>
+    <!-- Add our notification container that will be used by JavaScript -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <!-- Add our JavaScript file -->
+    <script src="../../scripts/admin.js"></script>
+  </body>
 </html>
