@@ -1,0 +1,25 @@
+/* Add these styles to your dashboard.css file */
+
+/* Chart container with fixed height */
+.chart-container {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 30px;
+  position: relative;
+  height: 350px; /* Fixed height for the entire container */
+}
+
+/* Chart canvas wrapper to maintain aspect ratio */
+.chart-canvas-wrapper {
+  position: relative;
+  height: 250px; /* Fixed height for the chart itself */
+  width: 100%;
+}
+
+/* Ensure the canvas respects container dimensions */
+.chart-canvas-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
