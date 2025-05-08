@@ -1,634 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loans - AgriBundance</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/loans.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-</head>
-<body>
-  <!-- Header -->
-  <header class="header">
-    <div class="container">
-      <div class="logo">
-        <img src="/frontend/ASSETS/images/WhatsApp Image 2025-02-21 at 23.37.06_62330f14.jpg" alt="Logo" style="height: 30px; margin-right: 10px;"> AgriBundance
-      </div>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="members.html">My Profile</a></li>
-          <li id="notificationDropdown" style="position: relative;">
-            <a href="#" id="notificationToggle">
-              <i class="fas fa-bell"></i>
-              <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background-color: red; color: white; border-radius: 50%; width: 15px; height: 15px; font-size: 10px; display: flex; align-items: center; justify-content: center;">0</span>
-            </a>
-            <div id="notificationContainer" style="position: absolute; top: 100%; right: -10px; width: 300px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); z-index: 100; display: none;">
-              <!-- Notification content similar to dashboard.html -->
-            </div>
-          </li>
-          <li>
-            <div class="user-dropdown" style="position: relative;">
-              <a href="#" id="userDropdownToggle" style="display: flex; align-items: center;">
-                <div id="userInitials" style="width: 30px; height: 30px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; margin-right: 5px;">JD</div>
-                <span id="userName">John Doe</span>
-                <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: 0.8rem;"></i>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loans - AgriBundance</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/dashboard.css" />
+    <link rel="stylesheet" href="../assets/css/style-loans.css" />
+    <style>
+      .loan-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .loan-status {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .loan-status.applied {
+        background-color: #e0f7fa;
+        color: #006064;
+      }
+
+      .loan-status.under-review {
+        background-color: #fff9c4;
+        color: #fbc02d;
+      }
+
+      .loan-status.approved {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      .loan-status.rejected {
+        background-color: #ffebee;
+        color: #c62828;
+      }
+
+      .loan-status.disbursed {
+        background-color: #e3f2fd;
+        color: #1565c0;
+      }
+
+      .loan-status.repaying {
+        background-color: #e8eaf6;
+        color: #3949ab;
+      }
+
+      .loan-status.fully-paid {
+        background-color: #e0f2f1;
+        color: #00796b;
+      }
+
+      .loan-status.defaulted {
+        background-color: #ffcdd2;
+        color: #d32f2f;
+      }
+
+      .progress-bar {
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 10px 0;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background-color: var(--primary-color);
+        border-radius: 5px;
+        transition: width 0.3s ease;
+      }
+
+      .installment-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      .installment-table th,
+      .installment-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .installment-table th {
+        font-weight: bold;
+        background-color: #f5f5f5;
+      }
+
+      .loan-tab {
+        padding: 15px 20px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .loan-tab:hover {
+        background-color: #f8f9fa;
+      }
+
+      .loan-tab.active {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+      }
+
+      .loan-type-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: #f0f0f0;
+        color: #333;
+        margin-right: 10px;
+      }
+
+      .loan-details-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <img
+            src="../assets/images/WhatsApp Image 2025-02-21 at 23.37.06_62330f14.jpg"
+            alt="Logo"
+            style="height: 30px; margin-right: 10px"
+          />
+          AgriBundance
+        </div>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="loans.html" class="active">Loans</a></li>
+            <li id="notificationDropdown" style="position: relative">
+              <a href="#" id="notificationToggle">
+                <i class="fas fa-bell"></i>
+                <span
+                  id="notificationBadge"
+                  style="
+                    position: absolute;
+                    top: -5px;
+                    right: -5px;
+                    background-color: red;
+                    color: white;
+                    border-radius: 50%;
+                    width: 15px;
+                    height: 15px;
+                    font-size: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                  >0</span
+                >
               </a>
-              <div id="userDropdownMenu" style="position: absolute; top: 100%; right: 0; width: 200px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); z-index: 100; display: none;">
-                <!-- User dropdown content similar to dashboard.html -->
+              <div
+                id="notificationContainer"
+                style="
+                  position: absolute;
+                  top: 100%;
+                  right: -10px;
+                  width: 300px;
+                  background-color: white;
+                  border-radius: var(--border-radius);
+                  box-shadow: var(--shadow);
+                  z-index: 100;
+                  display: none;
+                "
+              >
+                <div
+                  style="
+                    padding: 15px;
+                    border-bottom: 1px solid var(--border-color);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <h3 style="margin: 0; font-size: 1rem">Notifications</h3>
+                  <button
+                    id="markAllRead"
+                    style="
+                      background: none;
+                      border: none;
+                      color: var(--primary-color);
+                      cursor: pointer;
+                      font-size: 0.8rem;
+                    "
+                  >
+                    Mark all as read
+                  </button>
+                </div>
+                <div
+                  id="notificationList"
+                  style="max-height: 300px; overflow-y: auto"
+                >
+                  <!-- Notifications will be populated here -->
+                  <div
+                    style="
+                      padding: 15px;
+                      text-align: center;
+                      color: var(--text-light);
+                    "
+                  >
+                    No new notifications
+                  </div>
+                </div>
+                <div
+                  style="
+                    padding: 10px;
+                    text-align: center;
+                    border-top: 1px solid var(--border-color);
+                  "
+                >
+                  <a
+                    href="#"
+                    style="color: var(--primary-color); font-size: 0.9rem"
+                    >View all notifications</a
+                  >
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <div class="dashboard-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <div id="sidebarUserInitials" style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 10px;">JD</div>
-        <h3 id="sidebarUserName">John Doe</h3>
-        <p id="membershipId" style="color: var(--text-light); font-size: 0.8rem;">Member ID: #12345</p>
+            </li>
+            <li>
+              <div class="user-dropdown" style="position: relative">
+                <a
+                  href="#"
+                  id="userDropdownToggle"
+                  style="display: flex; align-items: center"
+                >
+                  <div
+                    id="userInitials"
+                    style="
+                      width: 30px;
+                      height: 30px;
+                      border-radius: 50%;
+                      background-color: rgba(255, 255, 255, 0.2);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      margin-right: 5px;
+                    "
+                  >
+                    JD
+                  </div>
+                  <span id="userName">John Doe</span>
+                  <i
+                    class="fas fa-chevron-down"
+                    style="margin-left: 5px; font-size: 0.8rem"
+                  ></i>
+                </a>
+                <div
+                  id="userDropdownMenu"
+                  style="
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    width: 200px;
+                    background-color: white;
+                    border-radius: var(--border-radius);
+                    box-shadow: var(--shadow);
+                    z-index: 100;
+                    display: none;
+                  "
+                >
+                  <a
+                    href="members.html"
+                    style="
+                      display: block;
+                      padding: 10px 15px;
+                      color: var(--text-color);
+                      border-bottom: 1px solid var(--border-color);
+                    "
+                  >
+                    <i class="fas fa-user" style="margin-right: 10px"></i> My
+                    Profile
+                  </a>
+                  <a
+                    href="#"
+                    style="
+                      display: block;
+                      padding: 10px 15px;
+                      color: var(--text-color);
+                      border-bottom: 1px solid var(--border-color);
+                    "
+                  >
+                    <i class="fas fa-cog" style="margin-right: 10px"></i>
+                    Settings
+                  </a>
+                  <a
+                    href="#"
+                    id="logoutBtn"
+                    style="
+                      display: block;
+                      padding: 10px 15px;
+                      color: var(--danger-color);
+                    "
+                  >
+                    <i
+                      class="fas fa-sign-out-alt"
+                      style="margin-right: 10px"
+                    ></i>
+                    Logout
+                  </a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
       </div>
-      <div class="sidebar-menu">
-        <div class="sidebar-menu-item">
-          <a href="dashboard.html">
-            <i class="fas fa-tachometer-alt"></i> Dashboard
-          </a>
-        </div>
-        <div class="sidebar-menu-item">
-          <a href="savings.html">
-            <i class="fas fa-piggy-bank"></i> Savings
-          </a>
-        </div>
-        <div class="sidebar-menu-item">
-          <a href="loans.html" class="active">
-            <i class="fas fa-hand-holding-usd"></i> Loans
-          </a>
-        </div>
-        <div class="sidebar-menu-item">
-          <a href="finance.html">
-            <i class="fas fa-money-bill-wave"></i> Financial
-          </a>
-        </div>
-        <div class="sidebar-menu-item">
-          <a href="marketplace.html">
-            <i class="fas fa-store"></i> Marketplace
-          </a>
-        </div>
-        <div class="sidebar-menu-item">
-          <a href="resources.html">
-            <i class="fas fa-tractor"></i> Resources
-          </a>
-        </div>
-        <div class="sidebar-menu-item">
-          <a href="forum.html">
-            <i class="fas fa-users"></i> Forum
-          </a>
-        </div>
-        <div class="sidebar-menu-item">
-          <a href="consultations.html">
-            <i class="fas fa-user-md"></i> Consultations
-          </a>
-        </div>
-      </div>
-    </div>
+    </header>
 
-    <!-- Main Content -->
-    <div class="main-content">
-      <div class="dashboard-header">
-        <div>
-          <h1 class="dashboard-title">Loans</h1>
-          <p style="color: var(--text-light);">Manage your agricultural loans and repayments</p>
-        </div>
-        <div class="dashboard-actions">
-          <button class="btn btn-outline">
-            <i class="fas fa-calculator"></i> Loan Calculator
-          </button>
-          <button class="btn btn-primary" id="applyLoanBtn">
-            <i class="fas fa-plus"></i> Apply for Loan
-          </button>
-        </div>
-      </div>
-
-      <!-- Loan Summary Stats -->
-      <div class="loan-summary">
-        <div class="summary-card">
-          <div class="summary-icon">
-            <i class="fas fa-hand-holding-usd"></i>
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <div
+            id="sidebarUserInitials"
+            style="
+              width: 60px;
+              height: 60px;
+              border-radius: 50%;
+              background-color: var(--primary-color);
+              color: white;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.5rem;
+              margin: 0 auto 10px;
+            "
+          >
+            JD
           </div>
-          <div class="summary-details">
-            <h3>Active Loans</h3>
-            <div class="summary-value">KES 30,000</div>
-            <div class="summary-label">1 active loan</div>
-          </div>
+          <h3 id="sidebarUserName">John Doe</h3>
+          <p
+            id="membershipId"
+            style="color: var(--text-light); font-size: 0.8rem"
+          >
+            Member ID: #12345
+          </p>
         </div>
-        <div class="summary-card">
-          <div class="summary-icon">
-            <i class="fas fa-calendar-check"></i>
+        <div class="sidebar-menu">
+          <div class="sidebar-menu-item">
+            <a href="dashboard.html">
+              <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
           </div>
-          <div class="summary-details">
-            <h3>Next Payment</h3>
-            <div class="summary-value">KES 5,000</div>
-            <div class="summary-label">Due in 5 days</div>
+          <div class="sidebar-menu-item">
+            <a href="savings.html">
+              <i class="fas fa-piggy-bank"></i> Savings
+            </a>
           </div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-icon">
-            <i class="fas fa-chart-line"></i>
+          <div class="sidebar-menu-item">
+            <a href="loans.html" class="active">
+              <i class="fas fa-hand-holding-usd"></i> Loans
+            </a>
           </div>
-          <div class="summary-details">
-            <h3>Credit Score</h3>
-            <div class="summary-value">720</div>
-            <div class="summary-label">Good</div>
+          <div class="sidebar-menu-item">
+            <a href="finance.html">
+              <i class="fas fa-money-bill-wave"></i> Financial
+            </a>
           </div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-icon">
-            <i class="fas fa-money-bill-wave"></i>
+          <div class="sidebar-menu-item">
+            <a href="marketplace.html">
+              <i class="fas fa-store"></i> Marketplace
+            </a>
           </div>
-          <div class="summary-details">
-            <h3>Available Credit</h3>
-            <div class="summary-value">KES 50,000</div>
-            <div class="summary-label">Based on share capital</div>
+          <div class="sidebar-menu-item">
+            <a href="resources.html">
+              <i class="fas fa-tractor"></i> Resources
+            </a>
           </div>
-        </div>
-      </div>
-
-      <!-- Active Loans -->
-      <div class="card" style="margin-bottom: 25px;">
-        <div class="card-header">
-          <h3 class="card-title">Active Loans</h3>
-        </div>
-        <div class="card-body">
-          <div class="active-loans">
-            <div class="loan-card">
-              <div class="loan-header">
-                <h4 class="loan-title">Seed Loan</h4>
-                <div class="loan-badge">
-                  <span class="badge badge-success">Active</span>
-                </div>
-              </div>
-              <div class="loan-details">
-                <div class="detail-row">
-                  <div class="detail-label">Amount:</div>
-                  <div class="detail-value">KES 40,000</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Disbursement Date:</div>
-                  <div class="detail-value">Jan 15, 2025</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Term:</div>
-                  <div class="detail-value">12 months</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Interest Rate:</div>
-                  <div class="detail-value">12% p.a.</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Monthly Payment:</div>
-                  <div class="detail-value">KES 5,000</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Remaining Balance:</div>
-                  <div class="detail-value">KES 30,000</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Payments Made:</div>
-                  <div class="detail-value">2/12</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Next Payment:</div>
-                  <div class="detail-value">Mar 25, 2025</div>
-                </div>
-              </div>
-              <div class="loan-progress">
-                <div class="progress-label">Repayment Progress:</div>
-                <div class="progress-bar-container">
-                  <div class="progress-bar" style="width: 25%;"></div>
-                </div>
-                <div class="progress-percentage">25% Complete</div>
-              </div>
-              <div class="loan-actions">
-                <button class="btn btn-outline">
-                  <i class="fas fa-calendar-alt"></i> Payment Schedule
-                </button>
-                <button class="btn btn-primary">
-                  <i class="fas fa-money-bill-wave"></i> Make Payment
-                </button>
-              </div>
-            </div>
+          <div class="sidebar-menu-item">
+            <a href="forum.html"> <i class="fas fa-users"></i> Forum </a>
           </div>
-        </div>
-      </div>
-
-      <!-- Loan Products -->
-      <div class="card" style="margin-bottom: 25px;">
-        <div class="card-header">
-          <h3 class="card-title">Available Loan Products</h3>
-        </div>
-        <div class="card-body">
-          <div class="loan-products">
-            <!-- Loan Product 1 -->
-            <div class="loan-product-card">
-              <div class="product-icon">
-                <i class="fas fa-seedling"></i>
-              </div>
-              <div class="product-content">
-                <h4 class="product-title">Agricultural Inputs Loan</h4>
-                <p class="product-description">Finance your farming inputs like seeds, fertilizers, and pesticides for the upcoming planting season.</p>
-                <div class="product-features">
-                  <div class="feature">
-                    <i class="fas fa-money-bill"></i>
-                    <span>Up to KES 100,000</span>
-                  </div>
-                  <div class="feature">
-                    <i class="fas fa-percentage"></i>
-                    <span>10% interest rate</span>
-                  </div>
-                  <div class="feature">
-                    <i class="fas fa-calendar"></i>
-                    <span>6-12 month term</span>
-                  </div>
-                </div>
-                <button class="btn btn-primary product-btn">Apply Now</button>
-              </div>
-            </div>
-
-            <!-- Loan Product 2 -->
-            <div class="loan-product-card">
-              <div class="product-icon">
-                <i class="fas fa-tractor"></i>
-              </div>
-              <div class="product-content">
-                <h4 class="product-title">Farm Equipment Loan</h4>
-                <p class="product-description">Acquire essential farming equipment and machinery to improve productivity and efficiency.</p>
-                <div class="product-features">
-                  <div class="feature">
-                    <i class="fas fa-money-bill"></i>
-                    <span>Up to KES 500,000</span>
-                  </div>
-                  <div class="feature">
-                    <i class="fas fa-percentage"></i>
-                    <span>12% interest rate</span>
-                  </div>
-                  <div class="feature">
-                    <i class="fas fa-calendar"></i>
-                    <span>12-36 month term</span>
-                  </div>
-                </div>
-                <button class="btn btn-primary product-btn">Apply Now</button>
-              </div>
-            </div>
-
-            <!-- Loan Product 3 -->
-            <div class="loan-product-card">
-              <div class="product-icon">
-                <i class="fas fa-warehouse"></i>
-              </div>
-              <div class="product-content">
-                <h4 class="product-title">Storage Facility Loan</h4>
-                <p class="product-description">Build or improve storage facilities to reduce post-harvest losses and sell when prices are favorable.</p>
-                <div class="product-features">
-                  <div class="feature">
-                    <i class="fas fa-money-bill"></i>
-                    <span>Up to KES 300,000</span>
-                  </div>
-                  <div class="feature">
-                    <i class="fas fa-percentage"></i>
-                    <span>11% interest rate</span>
-                  </div>
-                  <div class="feature">
-                    <i class="fas fa-calendar"></i>
-                    <span>12-24 month term</span>
-                  </div>
-                </div>
-                <button class="btn btn-primary product-btn">Apply Now</button>
-              </div>
-            </div>
-
-            <!-- Loan Product 4 -->
-            <div class="loan-product-card">
-              <div class="product-icon">
-                <i class="fas fa-cow"></i>
-              </div>
-              <div class="product-content">
-                <h4 class="product-title">Livestock Loan</h4>
-                <p class="product-description">Purchase livestock, feeds, and medications for your dairy or meat production ventures.</p>
-                <div class="product-features">
-                  <div class="feature">
-                    <i class="fas fa-money-bill"></i>
-                    <span>Up to KES 250,000</span>
-                  </div>
-                  <div class="feature">
-                    <i class="fas fa-percentage"></i>
-                    <span>10.5% interest rate</span>
-                  </div>
-                  <div class="feature">
-                    <i class="fas fa-calendar"></i>
-                    <span>12-24 month term</span>
-                  </div>
-                </div>
-                <button class="btn btn-primary product-btn">Apply Now</button>
-              </div>
-            </div>
+          <div class="sidebar-menu-item">
+            <a href="consultations.html">
+              <i class="fas fa-user-md"></i> Consultations
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- Loan History -->
-      <div class="card" style="margin-bottom: 25px;">
-        <div class="card-header">
-          <h3 class="card-title">Loan History</h3>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Loan ID</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Date Issued</th>
-                  <th>Term</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#L1028</td>
-                  <td>Seed Loan</td>
-                  <td>KES 40,000</td>
-                  <td>Jan 15, 2025</td>
-                  <td>12 months</td>
-                  <td><span class="badge badge-success">Active</span></td>
-                  <td>
-                    <button class="btn btn-small btn-outline">Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#L0945</td>
-                  <td>Equipment Loan</td>
-                  <td>KES 150,000</td>
-                  <td>May 10, 2024</td>
-                  <td>24 months</td>
-                  <td><span class="badge badge-primary">Completed</span></td>
-                  <td>
-                    <button class="btn btn-small btn-outline">Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#L0872</td>
-                  <td>Fertilizer Loan</td>
-                  <td>KES 25,000</td>
-                  <td>Feb 22, 2024</td>
-                  <td>6 months</td>
-                  <td><span class="badge badge-primary">Completed</span></td>
-                  <td>
-                    <button class="btn btn-small btn-outline">Details</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="dashboard-header">
+          <div>
+            <h1 class="dashboard-title">Loans</h1>
+            <p style="color: var(--text-light)">
+              View, apply for, and manage your loans
+            </p>
+          </div>
+          <div class="dashboard-actions">
+            <button class="btn" id="applyLoanBtn">
+              <i class="fas fa-plus"></i> Apply for Loan
+            </button>
           </div>
         </div>
-      </div>
 
-      <!-- Loan Repayment Chart -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Loan Repayment Analytics</h3>
-        </div>
-        <div class="card-body">
-          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
-            <div class="chart-container">
-              <h4 class="chart-title">Repayment Schedule</h4>
-              <canvas id="repaymentChart" height="250"></canvas>
-            </div>
-            <div class="payment-summary">
-              <h4 class="chart-title">Payment Summary</h4>
-              <div class="summary-stats">
-                <div class="stat-item">
-                  <div class="stat-label">Principal Amount</div>
-                  <div class="stat-value">KES 40,000</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-label">Interest Accrued</div>
-                  <div class="stat-value">KES 2,600</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-label">Principal Paid</div>
-                  <div class="stat-value">KES 10,000</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-label">Interest Paid</div>
-                  <div class="stat-value">KES 2,000</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-label">Remaining Principal</div>
-                  <div class="stat-value">KES 30,000</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-label">Remaining Interest</div>
-                  <div class="stat-value">KES 600</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-label">Total Remaining</div>
-                  <div class="stat-value">KES 30,600</div>
-                </div>
+        <!-- Loans Tabs -->
+        <div class="card" style="padding: 0">
+          <div
+            style="display: flex; border-bottom: 1px solid var(--border-color)"
+          >
+            <div class="loan-tab active" data-tab="myloans">My Loans</div>
+            <div class="loan-tab" data-tab="apply">Apply for Loan</div>
+          </div>
+
+          <!-- My Loans Tab -->
+          <div id="myloans" class="tab-content" style="padding: 20px">
+            <div id="loansContainer">
+              <!-- Loans will be loaded here -->
+              <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Loading loans...
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Loan Application Modal -->
-      <div id="loanApplicationModal" class="modal" style="display: none;">
-        <div class="modal-content modal-large">
-          <div class="modal-header">
-            <h3>Loan Application</h3>
-            <span class="close">&times;</span>
-          </div>
-          <div class="modal-body">
-            <div class="application-steps">
-              <div class="step active" data-step="1">1. Loan Type</div>
-              <div class="step" data-step="2">2. Personal Details</div>
-              <div class="step" data-step="3">3. Farm Details</div>
-              <div class="step" data-step="4">4. Loan Details</div>
-              <div class="step" data-step="5">5. Review & Submit</div>
-            </div>
-            
+          <!-- Apply for Loan Tab -->
+          <div
+            id="apply"
+            class="tab-content"
+            style="padding: 20px; display: none"
+          >
             <form id="loanApplicationForm">
-              <!-- Step 1: Loan Type -->
-              <div class="step-content active" data-step="1">
-                <h4>Select Loan Type</h4>
-                <p>Choose the loan product that best fits your farming needs</p>
-                
-                <div class="loan-type-selector">
-                  <div class="loan-type-option">
-                    <input type="radio" id="inputLoan" name="loanType" value="inputs" checked>
-                    <label for="inputLoan">
-                      <div class="option-icon"><i class="fas fa-seedling"></i></div>
-                      <div class="option-title">Agricultural Inputs Loan</div>
-                      <div class="option-desc">For seeds, fertilizers, pesticides</div>
-                    </label>
-                  </div>
-                  
-                  <div class="loan-type-option">
-                    <input type="radio" id="equipmentLoan" name="loanType" value="equipment">
-                    <label for="equipmentLoan">
-                      <div class="option-icon"><i class="fas fa-tractor"></i></div>
-                      <div class="option-title">Farm Equipment Loan</div>
-                      <div class="option-desc">For machinery and tools</div>
-                    </label>
-                  </div>
-                  
-                  <div class="loan-type-option">
-                    <input type="radio" id="storageLoan" name="loanType" value="storage">
-                    <label for="storageLoan">
-                      <div class="option-icon"><i class="fas fa-warehouse"></i></div>
-                      <div class="option-title">Storage Facility Loan</div>
-                      <div class="option-desc">For post-harvest storage</div>
-                    </label>
-                  </div>
-                  
-                  <div class="loan-type-option">
-                    <input type="radio" id="livestockLoan" name="loanType" value="livestock">
-                    <label for="livestockLoan">
-                      <div class="option-icon"><i class="fas fa-cow"></i></div>
-                      <div class="option-title">Livestock Loan</div>
-                      <div class="option-desc">For animals and feed</div>
-                    </label>
-                  </div>
-                </div>
-                
-                <div class="form-actions">
-                  <button type="button" class="btn btn-primary next-step">Continue</button>
-                </div>
-              </div>
-              
-              <!-- Step 2: Personal Details -->
-              <div class="step-content" data-step="2">
-                <h4>Personal Details</h4>
-                <p>Please confirm your personal information</p>
-                
+              <div class="form-row">
                 <div class="form-group">
-                  <label for="fullName">Full Name</label>
-                  <input type="text" id="fullName" class="form-control" value="John Doe" readonly>
-                </div>
-                
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="idNumber">ID Number</label>
-                    <input type="text" id="idNumber" class="form-control" value="12345678" readonly>
-                  </div>
-                  <div class="form-group">
-                    <label for="membershipNumber">Membership Number</label>
-                    <input type="text" id="membershipNumber" class="form-control" value="#12345" readonly>
-                  </div>
-                </div>
-                
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" class="form-control" value="+254 712 345 678" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" class="form-control" value="johndoe@example.com" required>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label for="address">Physical Address</label>
-                  <input type="text" id="address" class="form-control" value="123 Farmer's Lane, Nakuru" required>
-                </div>
-                
-                <div class="form-actions">
-                  <button type="button" class="btn btn-outline prev-step">Back</button>
-                  <button type="button" class="btn btn-primary next-step">Continue</button>
-                </div>
-              </div>
-              
-              <!-- Step 3: Farm Details -->
-              <div class="step-content" data-step="3">
-                <h4>Farm Details</h4>
-                <p>Tell us about your farming activities</p>
-                
-                <div class="form-group">
-                  <label for="farmSize">Farm Size (acres)</label>
-                  <input type="number" id="farmSize" class="form-control" min="0.1" step="0.1" required>
-                </div>
-                
-                <div class="form-group">
-                  <label for="farmLocation">Farm Location</label>
-                  <input type="text" id="farmLocation" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                  <label for="farmingActivities">Primary Farming Activities</label>
-                  <select id="farmingActivities" class="form-control" multiple required>
-                    <option value="maize">Maize Farming</option>
-                    <option value="beans">Bean Farming</option>
-                    <option value="potatoes">Potato Farming</option>
-                    <option value="tomatoes">Tomato Farming</option>
-                    <option value="dairy">Dairy Farming</option>
-                    <option value="poultry">Poultry Farming</option>
-                    <option value="other">Other</option>
-                  </select>
-                  <div class="form-hint">Hold Ctrl/Cmd to select multiple options</div>
-                </div>
-                
-                <div class="form-group">
-                  <label for="farmExperience">Years of Farming Experience</label>
-                  <select id="farmExperience" class="form-control" required>
-                    <option value="">-- Select --</option>
-                    <option value="0-2">0-2 years</option>
-                    <option value="3-5">3-5 years</option>
-                    <option value="6-10">6-10 years</option>
-                    <option value="11+">11+ years</option>
+                  <label for="loanType">Loan Type</label>
+                  <select
+                    id="loanType"
+                    name="loanType"
+                    class="form-control"
+                    required
+                  >
+                    <option value="">Select loan type</option>
+                    <option value="seed">Seed Loan</option>
+                    <option value="equipment">Equipment Loan</option>
+                    <option value="fertilizer">Fertilizer Loan</option>
+                    <option value="livestock">Livestock Loan</option>
+                    <option value="storage">Storage Loan</option>
+                    <option value="general">General Purpose Loan</option>
                   </select>
                 </div>
-                
                 <div class="form-group">
-                  <label for="seasonalIncome">Average Seasonal Income (KES)</label>
-                  <input type="number" id="seasonalIncome" class="form-control" min="0" step="1000" required>
-                </div>
-                
-                <div class="form-actions">
-                  <button type="button" class="btn btn-outline prev-step">Back</button>
-                  <button type="button" class="btn btn-primary next-step">Continue</button>
+                  <label for="amount">Loan Amount (KES)</label>
+                  <input
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    min="1000"
+                    step="1000"
+                    class="form-control"
+                    required
+                  />
                 </div>
               </div>
-              
-              <!-- Step 4: Loan Details -->
-              <div class="step-content" data-step="4">
-                <h4>Loan Details</h4>
-                <p>Specify the details of your loan request</p>
-                
+              <div class="form-row">
                 <div class="form-group">
-                  <label for="loanAmount">Loan Amount (KES)</label>
-                  <input type="number" id="loanAmount" class="form-control" min="5000" max="500000" step="1000" required>
-                  <div class="form-hint">Minimum: KES 5,000, Maximum: KES 500,000</div>
-                </div>
-                
-                <div class="form-group">
-                  <label for="loanPurpose">Loan Purpose</label>
-                  <textarea id="loanPurpose" class="form-control" rows="3" required></textarea>
-                  <div class="form-hint">Please describe specifically how you plan to use this loan</div>
-                </div>
-                
-                <div class="form-group">
-                  <label for="loanTerm">Loan Term</label>
-                  <select id="loanTerm" class="form-control" required>
-                    <option value="">-- Select --</option>
+                  <label for="term">Loan Term (Months)</label>
+                  <select id="term" name="term" class="form-control" required>
+                    <option value="">Select term</option>
+                    <option value="3">3 months</option>
                     <option value="6">6 months</option>
                     <option value="12">12 months</option>
                     <option value="18">18 months</option>
@@ -636,153 +499,571 @@
                     <option value="36">36 months</option>
                   </select>
                 </div>
-                
                 <div class="form-group">
-                  <label for="repaymentFrequency">Repayment Frequency</label>
-                  <select id="repaymentFrequency" class="form-control" required>
-                    <option value="monthly">Monthly</option>
-                    <option value="quarterly">Quarterly</option>
-                    <option value="harvest">After Harvest</option>
-                  </select>
-                </div>
-                
-                <div class="form-group">
-                  <label>Collateral/Security</label>
-                  <div class="form-check">
-                    <input type="checkbox" id="shareCapital" name="collateral" value="shareCapital" checked>
-                    <label for="shareCapital">Share Capital</label>
-                  </div>
-                  <div class="form-check">
-                    <input type="checkbox" id="savings" name="collateral" value="savings">
-                    <label for="savings">Savings</label>
-                  </div>
-                  <div class="form-check">
-                    <input type="checkbox" id="guarantors" name="collateral" value="guarantors">
-                    <label for="guarantors">Guarantors</label>
-                  </div>
-                  <div class="form-check">
-                    <input type="checkbox" id="assets" name="collateral" value="assets">
-                    <label for="assets">Farm Assets</label>
-                  </div>
-                </div>
-                
-                <div class="form-actions">
-                  <button type="button" class="btn btn-outline prev-step">Back</button>
-                  <button type="button" class="btn btn-primary next-step">Continue</button>
+                  <label for="purpose">Loan Purpose</label>
+                  <input
+                    type="text"
+                    id="purpose"
+                    name="purpose"
+                    class="form-control"
+                    required
+                  />
                 </div>
               </div>
-              
-              <!-- Step 5: Review & Submit -->
-              <div class="step-content" data-step="5">
-                <h4>Review & Submit</h4>
-                <p>Please review your application details before submitting</p>
-                
-                <div class="review-section">
-                  <h5>Loan Type</h5>
-                  <div class="review-data" id="reviewLoanType">Agricultural Inputs Loan</div>
-                </div>
-                
-                <div class="review-section">
-                  <h5>Personal Details</h5>
-                  <div class="review-item">
-                    <div class="review-label">Name:</div>
-                    <div class="review-value" id="reviewName">John Doe</div>
+              <div class="form-group">
+                <label>Farm Use (for agricultural loans)</label>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="cropType">Crop Types (comma separated)</label>
+                    <input
+                      type="text"
+                      id="cropType"
+                      name="cropType"
+                      class="form-control"
+                    />
                   </div>
-                  <div class="review-item">
-                    <div class="review-label">ID Number:</div>
-                    <div class="review-value" id="reviewId">12345678</div>
-                  </div>
-                  <div class="review-item">
-                    <div class="review-label">Contact:</div>
-                    <div class="review-value" id="reviewContact">+254 712 345 678 / johndoe@example.com</div>
+                  <div class="form-group">
+                    <label for="landSize">Land Size (acres)</label>
+                    <input
+                      type="number"
+                      id="landSize"
+                      name="landSize"
+                      min="0"
+                      step="0.1"
+                      class="form-control"
+                    />
                   </div>
                 </div>
-                
-                <div class="review-section">
-                  <h5>Farm Details</h5>
-                  <div class="review-item">
-                    <div class="review-label">Farm Size:</div>
-                    <div class="review-value" id="reviewFarmSize">2.5 acres</div>
-                  </div>
-                  <div class="review-item">
-                    <div class="review-label">Location:</div>
-                    <div class="review-value" id="reviewLocation">Nakuru County</div>
-                  </div>
-                  <div class="review-item">
-                    <div class="review-label">Activities:</div>
-                    <div class="review-value" id="reviewActivities">Maize Farming, Bean Farming</div>
-                  </div>
-                </div>
-                
-                <div class="review-section">
-                  <h5>Loan Details</h5>
-                  <div class="review-item">
-                    <div class="review-label">Amount:</div>
-                    <div class="review-value" id="reviewAmount">KES 40,000</div>
-                  </div>
-                  <div class="review-item">
-                    <div class="review-label">Term:</div>
-                    <div class="review-value" id="reviewTerm">12 months</div>
-                  </div>
-                  <div class="review-item">
-                    <div class="review-label">Purpose:</div>
-                    <div class="review-value" id="reviewPurpose">Purchase of certified maize seeds and fertilizer for the upcoming planting season.</div>
-                  </div>
-                  <div class="review-item">
-                    <div class="review-label">Repayment:</div>
-                    <div class="review-value" id="reviewRepayment">Monthly</div>
-                  </div>
-                </div>
-                
                 <div class="form-group">
-                  <div class="form-check">
-                    <input type="checkbox" id="termsAgreement" required>
-                    <label for="termsAgreement">I confirm that all the information provided is accurate and complete. I understand that providing false information may result in my application being rejected.</label>
+                  <label for="location">Farm Location</label>
+                  <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Collateral Information</label>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="collateralDescription">Description</label>
+                    <input
+                      type="text"
+                      id="collateralDescription"
+                      name="collateralDescription"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="collateralValue">Estimated Value (KES)</label>
+                    <input
+                      type="number"
+                      id="collateralValue"
+                      name="collateralValue"
+                      min="0"
+                      step="1000"
+                      class="form-control"
+                    />
                   </div>
                 </div>
-                
-                <div class="loan-summary-box">
-                  <div class="summary-header">Loan Summary</div>
-                  <div class="summary-content">
-                    <div class="summary-item">
-                      <div class="item-label">Loan Amount:</div>
-                      <div class="item-value">KES 40,000</div>
-                    </div>
-                    <div class="summary-item">
-                      <div class="item-label">Interest Rate:</div>
-                      <div class="item-value">10% p.a.</div>
-                    </div>
-                    <div class="summary-item">
-                      <div class="item-label">Processing Fee:</div>
-                      <div class="item-value">KES 1,200 (3%)</div>
-                    </div>
-                    <div class="summary-item">
-                      <div class="item-label">Loan Term:</div>
-                      <div class="item-value">12 months</div>
-                    </div>
-                    <div class="summary-item">
-                      <div class="item-label">Monthly Payment:</div>
-                      <div class="item-value">KES 3,505</div>
-                    </div>
-                    <div class="summary-item total">
-                      <div class="item-label">Total Repayment:</div>
-                      <div class="item-value">KES 42,060</div>
-                    </div>
+              </div>
+              <div class="form-group">
+                <label>Guarantor Information</label>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="guarantorName">Name</label>
+                    <input
+                      type="text"
+                      id="guarantorName"
+                      name="guarantorName"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="guarantorRelationship">Relationship</label>
+                    <input
+                      type="text"
+                      id="guarantorRelationship"
+                      name="guarantorRelationship"
+                      class="form-control"
+                    />
                   </div>
                 </div>
-                
-                <div class="form-actions">
-                  <button type="button" class="btn btn-outline prev-step">Back</button>
-                  <button type="submit" class="btn btn-primary">Submit Application</button>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="guarantorContact">Contact</label>
+                    <input
+                      type="text"
+                      id="guarantorContact"
+                      name="guarantorContact"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="guarantorNationalId">National ID</label>
+                    <input
+                      type="text"
+                      id="guarantorNationalId"
+                      name="guarantorNationalId"
+                      class="form-control"
+                    />
+                  </div>
                 </div>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    id="termsAccepted"
+                    name="termsAccepted"
+                    class="form-check-input"
+                    required
+                  />
+                  <label for="termsAccepted" class="form-check-label"
+                    >I agree to the terms and conditions of the loan</label
+                  >
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn">
+                  Submit Loan Application
+                </button>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="../assets/js/loans.js"></script>
-</body>
+    <!-- Loan Details Modal Template -->
+    <template id="loanDetailsModalTemplate">
+      <div class="loan-details-header">
+        <h3>
+          <span id="modalLoanType" class="loan-type-badge"></span> Loan - KES
+          <span id="modalLoanAmount"></span>
+        </h3>
+        <span id="modalLoanStatus" class="loan-status"></span>
+      </div>
+      <div class="loan-details">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Purpose:</label>
+            <p id="modalLoanPurpose"></p>
+          </div>
+          <div class="form-group">
+            <label>Interest Rate:</label>
+            <p><span id="modalInterestRate"></span>%</p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Term:</label>
+            <p><span id="modalLoanTerm"></span> months</p>
+          </div>
+          <div class="form-group">
+            <label>Application Date:</label>
+            <p id="modalApplicationDate"></p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Total Amount Payable:</label>
+            <p>KES <span id="modalTotalAmount"></span></p>
+          </div>
+          <div class="form-group">
+            <label>Remaining Balance:</label>
+            <p>KES <span id="modalRemainingBalance"></span></p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Repayment Progress:</label>
+          <div class="progress-bar">
+            <div
+              id="modalProgressBar"
+              class="progress-bar-fill"
+              style="width: 0%"
+            ></div>
+          </div>
+          <p><span id="modalProgressPercentage"></span>% paid</p>
+        </div>
+        <div id="repaymentSection">
+          <h4>Repayment Schedule</h4>
+          <table class="installment-table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Due Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="installmentsTableBody">
+              <!-- Installments will be loaded here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </template>
+
+    <!-- Make Payment Modal Template -->
+    <template id="makePaymentModalTemplate">
+      <form id="paymentForm">
+        <div class="form-group">
+          <label>Installment:</label>
+          <p>Installment #<span id="paymentInstallmentNumber"></span></p>
+        </div>
+        <div class="form-group">
+          <label>Amount Due:</label>
+          <p>KES <span id="paymentAmountDue"></span></p>
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Payment Method</label>
+          <select
+            id="paymentMethod"
+            name="paymentMethod"
+            class="form-control"
+            required
+          >
+            <option value="mobile-money">Mobile Money</option>
+            <option value="bank-transfer">Bank Transfer</option>
+            <option value="cash">Cash</option>
+          </select>
+        </div>
+        <div id="mobileMoneySectionContainer">
+          <div class="form-group">
+            <label for="phoneNumber">M-Pesa Phone Number</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              class="form-control"
+              placeholder="e.g. 07XXXXXXXX"
+              required
+            />
+          </div>
+        </div>
+        <div id="bankTransferSectionContainer" style="display: none">
+          <div class="form-group">
+            <label for="transactionReference">Transaction Reference</label>
+            <input
+              type="text"
+              id="transactionReference"
+              name="transactionReference"
+              class="form-control"
+              required
+            />
+          </div>
+        </div>
+        <div id="cashSectionContainer" style="display: none">
+          <div class="form-group">
+            <p>Please visit our office to make a cash payment.</p>
+          </div>
+        </div>
+        <input type="hidden" id="paymentLoanId" name="loanId" />
+        <input
+          type="hidden"
+          id="paymentInstallmentNo"
+          name="installmentNumber"
+        />
+      </form>
+    </template>
+
+    <!-- Loading overlay -->
+    <div
+      id="loadingOverlay"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+      "
+    >
+      <div
+        class="loading-spinner"
+        style="
+          width: 50px;
+          height: 50px;
+          border: 5px solid #f3f3f3;
+          border-top: 5px solid var(--primary-color);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        "
+      ></div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div
+      id="toast"
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 4px;
+        color: white;
+        z-index: 1000;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+        max-width: 300px;
+      "
+    ></div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/loans.js"></script>
+    <script>
+      // Function to show loading overlay
+      function showLoading() {
+        document.getElementById("loadingOverlay").style.display = "flex";
+      }
+
+      // Function to hide loading overlay
+      function hideLoading() {
+        document.getElementById("loadingOverlay").style.display = "none";
+      }
+
+      // Function to show toast notification
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+
+        // Set toast type
+        if (type === "success") {
+          toast.style.backgroundColor = "var(--success-color)";
+        } else if (type === "error") {
+          toast.style.backgroundColor = "var(--danger-color)";
+        } else if (type === "warning") {
+          toast.style.backgroundColor = "var(--warning-color)";
+        } else {
+          toast.style.backgroundColor = "var(--info-color)";
+        }
+
+        // Set message and show toast
+        toast.textContent = message;
+        toast.style.opacity = "1";
+
+        // Hide toast after 3 seconds
+        setTimeout(() => {
+          toast.style.opacity = "0";
+        }, 3000);
+      }
+
+      // Initialize tabs
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check authentication
+        const authToken = localStorage.getItem("authToken");
+        if (!authToken) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        // Update user information
+        updateUserInfo();
+
+        const tabs = document.querySelectorAll(".loan-tab");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            // Remove active class from all tabs
+            tabs.forEach((t) => t.classList.remove("active"));
+
+            // Add active class to clicked tab
+            tab.classList.add("active");
+
+            // Hide all tab contents
+            tabContents.forEach((content) => (content.style.display = "none"));
+
+            // Show selected tab content
+            const tabId = tab.getAttribute("data-tab");
+            document.getElementById(tabId).style.display = "block";
+          });
+        });
+
+        // User dropdown
+        const userDropdownToggle =
+          document.getElementById("userDropdownToggle");
+        const userDropdownMenu = document.getElementById("userDropdownMenu");
+
+        userDropdownToggle.addEventListener("click", function (e) {
+          e.preventDefault();
+          userDropdownMenu.style.display =
+            userDropdownMenu.style.display === "block" ? "none" : "block";
+        });
+
+        document.addEventListener("click", function (e) {
+          if (
+            !userDropdownToggle.contains(e.target) &&
+            !userDropdownMenu.contains(e.target)
+          ) {
+            userDropdownMenu.style.display = "none";
+          }
+        });
+
+        // Notification dropdown
+        const notificationToggle =
+          document.getElementById("notificationToggle");
+        const notificationContainer = document.getElementById(
+          "notificationContainer"
+        );
+
+        notificationToggle.addEventListener("click", function (e) {
+          e.preventDefault();
+          notificationContainer.style.display =
+            notificationContainer.style.display === "block" ? "none" : "block";
+        });
+
+        document.addEventListener("click", function (e) {
+          if (
+            !notificationToggle.contains(e.target) &&
+            !notificationContainer.contains(e.target)
+          ) {
+            notificationContainer.style.display = "none";
+          }
+        });
+
+        // Apply loan button
+        document
+          .getElementById("applyLoanBtn")
+          .addEventListener("click", function () {
+            document.querySelector('.loan-tab[data-tab="apply"]').click();
+          });
+
+        // Logout button
+        document
+          .getElementById("logoutBtn")
+          .addEventListener("click", function () {
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("memberData");
+            window.location.href = "login.html";
+          });
+      });
+
+      // Update user information based on localStorage data
+      function updateUserInfo() {
+        const memberData = JSON.parse(localStorage.getItem("memberData")) || {};
+        const firstName = memberData.firstName || "John";
+        const lastName = memberData.lastName || "Doe";
+        const fullName = `${firstName} ${lastName}`;
+        const initials = `${firstName.charAt(0)}${lastName.charAt(
+          0
+        )}`.toUpperCase();
+        const memberId = memberData.memberId || "#12345";
+
+        // Update header user info
+        document.getElementById("userName").textContent = fullName;
+        document.getElementById("userInitials").textContent = initials;
+
+        // Update sidebar user info
+        document.getElementById("sidebarUserName").textContent = fullName;
+        document.getElementById("sidebarUserInitials").textContent = initials;
+        document.getElementById(
+          "membershipId"
+        ).textContent = `Member ID: ${memberId}`;
+      }
+
+      // Make window.app available for loans.js
+      window.app = window.app || {};
+
+      // Show toast message
+      window.app.showToast = function (message, type = "info") {
+        showToast(message, type);
+      };
+
+      // Show loading
+      window.app.showLoading = function () {
+        showLoading();
+      };
+
+      // Hide loading
+      window.app.hideLoading = function () {
+        hideLoading();
+      };
+
+      // Create modal function
+      window.app.createModal = function (title, content, buttons = []) {
+        // Create modal overlay
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+
+        // Create modal container
+        const modal = document.createElement("div");
+        modal.className = "modal";
+
+        // Create modal header
+        const header = document.createElement("div");
+        header.className = "modal-header";
+        header.innerHTML = `
+        <h3>${title}</h3>
+        <button class="modal-close"><i class="fas fa-times"></i></button>
+      `;
+
+        // Create modal body
+        const body = document.createElement("div");
+        body.className = "modal-body";
+        if (typeof content === "string") {
+          body.innerHTML = content;
+        } else {
+          body.appendChild(content);
+        }
+
+        // Create modal footer with buttons
+        const footer = document.createElement("div");
+        footer.className = "modal-footer";
+
+        buttons.forEach((button) => {
+          const btn = document.createElement("button");
+          btn.className = button.class || "btn";
+          btn.innerHTML = button.text;
+          btn.addEventListener("click", button.handler);
+          footer.appendChild(btn);
+        });
+
+        // Assemble modal
+        modal.appendChild(header);
+        modal.appendChild(body);
+        modal.appendChild(footer);
+        overlay.appendChild(modal);
+
+        // Add close functionality
+        header.querySelector(".modal-close").addEventListener("click", () => {
+          window.app.closeModal(overlay);
+        });
+
+        // Add close on overlay click
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) {
+            window.app.closeModal(overlay);
+          }
+        });
+
+        // Add modal to document
+        document.body.appendChild(overlay);
+
+        // Return the modal for reference
+        return overlay;
+      };
+
+      // Close modal function
+      window.app.closeModal = function (modal) {
+        if (!modal) {
+          modal = document.querySelector(".modal-overlay");
+        }
+
+        if (modal) {
+          modal.classList.add("closing");
+          setTimeout(() => {
+            modal.remove();
+          }, 300);
+        }
+      };
+    </script>
+  </body>
 </html>

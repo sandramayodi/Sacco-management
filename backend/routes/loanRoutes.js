@@ -1,30 +1,32 @@
-
 // routes/loanRoutes.js
-const express = require('express');
+const express = require("express");
 const {
   applyForLoan,
   getMyLoans,
   getLoan,
-  updateLoanApplication,
-  reviewLoan,
+  processRepayment,
+  getAllLoanApplications,
+  reviewLoanApplication,
   disburseLoan,
-  recordRepayment,
-  getAllLoans,
-  getLoanStats
-} = require('../controllers/loanController');
+  getLoanStats,
+  processMobileMoneyPayment,
+} = require("../controllers/loanController");
 
-const { protect, admin } = require('../middleware/auth');
+const { protect, admin } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.post('/', protect, applyForLoan);
-router.get('/', protect, getMyLoans);
-router.get('/all', protect, admin, getAllLoans);
-router.get('/stats', protect, admin, getLoanStats);
-router.get('/:id', protect, getLoan);
-router.put('/:id', protect, updateLoanApplication);
-router.put('/:id/review', protect, admin, reviewLoan);
-router.put('/:id/disburse', protect, admin, disburseLoan);
-router.post('/:id/repayment', protect, recordRepayment);
+// Member routes
+router.post("/apply", protect, applyForLoan);
+router.get("/", protect, getMyLoans);
+router.get("/:id", protect, getLoan);
+router.post("/:id/repayment", protect, processRepayment);
+router.post("/:id/mobile-money", protect, processMobileMoneyPayment);
+
+// Admin routes
+router.get("/applications", protect, admin, getAllLoanApplications);
+router.put("/:id/review", protect, admin, reviewLoanApplication);
+router.put("/:id/disburse", protect, admin, disburseLoan);
+router.get("/stats", protect, admin, getLoanStats);
 
 module.exports = router;

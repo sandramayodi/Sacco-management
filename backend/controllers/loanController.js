@@ -1,29 +1,81 @@
 // controllers/loanController.js
-const Loan = require('../models/Loan');
-const Member = require('../models/Member');
-const Transaction = require('../models/Transaction');
-const creditScoring = require('../utils/creditScoring');
+const Loan = require("../models/Loan");
+const Transaction = require("../models/Transaction");
+const Member = require("../models/Member");
 
 // @desc    Apply for a loan
-// @route   POST /api/loans
+// @route   POST /api/loans/apply
 // @access  Private
 exports.applyForLoan = async (req, res, next) => {
   try {
+    // Check member eligibility (must be verified and have share capital)
+    const member = await Member.findById(req.member.id);
+
+    // if (!member.verified) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     error: "You must be a verified member to apply for loans",
+    //   });
+    // }
+
+    // if (member.shareCapital < 1000) {
+    //   // Minimum share capital requirement
+    //   return res.status(400).json({
+    //     success: false,
+    //     error: "You need a minimum share capital of 1000 to apply for loans",
+    //   });
+    // }
+
+    // Set member ID to the request body
     req.body.member = req.member.id;
-    
-    // Calculate credit score
-    const creditScore = await creditScoring.calculateCreditScore(req.member.id);
-    req.body.creditScore = creditScore;
-    
-    // Initialize loan with application status
-    req.body.status = 'applied';
-    
-    // Create loan
+
+    // Calculate interest rate based on loan type
+    let interestRate;
+    switch (req.body.loanType) {
+      case "seed":
+        interestRate = 10;
+        break;
+      case "equipment":
+        interestRate = 12;
+        break;
+      case "fertilizer":
+        interestRate = 8;
+        break;
+      case "livestock":
+        interestRate = 12;
+        break;
+      case "storage":
+        interestRate = 9;
+        break;
+      case "general":
+        interestRate = 14;
+        break;
+      default:
+        interestRate = 12;
+    }
+    req.body.interestRate = interestRate;
+
+    // Create loan application
     const loan = await Loan.create(req.body);
-    
+
+    // Generate repayment schedule
+    loan.repaymentSchedule = loan.generateRepaymentSchedule();
+    await loan.save();
+
+    // Create transaction record for the application
+    await Transaction.create({
+      member: req.member.id,
+      // transactionType: "loan-application",
+      amount: req.body.amount,
+      reference: `LOAN-APP-${loan._id}`,
+      relatedLoan: loan._id,
+      status: "completed",
+      description: `Loan application - ${req.body.loanType} - ${req.body.purpose}`,
+    });
+
     res.status(201).json({
       success: true,
-      data: loan
+      data: loan,
     });
   } catch (err) {
     next(err);
@@ -35,12 +87,14 @@ exports.applyForLoan = async (req, res, next) => {
 // @access  Private
 exports.getMyLoans = async (req, res, next) => {
   try {
-    const loans = await Loan.find({ member: req.member.id });
-    
+    const loans = await Loan.find({
+      member: req.member.id,
+    });
+
     res.status(200).json({
       success: true,
       count: loans.length,
-      data: loans
+      data: loans,
     });
   } catch (err) {
     next(err);
@@ -52,389 +106,403 @@ exports.getMyLoans = async (req, res, next) => {
 // @access  Private
 exports.getLoan = async (req, res, next) => {
   try {
-    const loan = await Loan.findById(req.params.id).populate('member', 'firstName lastName email phone');
-    
+    const loan = await Loan.findById(req.params.id);
+
     if (!loan) {
       return res.status(404).json({
         success: false,
-        error: 'Loan not found'
+        error: "Loan not found",
       });
     }
-    
-    // Make sure user is loan owner or admin
-    if (loan.member._id.toString() !== req.member.id && req.member.role !== 'admin') {
+
+    // Make sure user owns the loan or is admin
+    if (
+      loan.member.toString() !== req.member.id &&
+      req.member.role !== "admin"
+    ) {
       return res.status(401).json({
         success: false,
-        error: 'Not authorized to access this resource'
+        error: "Not authorized to access this resource",
       });
     }
-    
+
     res.status(200).json({
       success: true,
-      data: loan
+      data: loan,
     });
   } catch (err) {
     next(err);
   }
 };
 
-// @desc    Update loan application
-// @route   PUT /api/loans/:id
-// @access  Private
-exports.updateLoanApplication = async (req, res, next) => {
-  try {
-    let loan = await Loan.findById(req.params.id);
-    
-    if (!loan) {
-      return res.status(404).json({
-        success: false,
-        error: 'Loan not found'
-      });
-    }
-    
-    // Make sure user is loan owner
-    if (loan.member.toString() !== req.member.id) {
-      return res.status(401).json({
-        success: false,
-        error: 'Not authorized to update this loan'
-      });
-    }
-    
-    // Only allow updates if loan is still in applied status
-    if (loan.status !== 'applied') {
-      return res.status(400).json({
-        success: false,
-        error: 'Loan can only be updated when in applied status'
-      });
-    }
-    
-    // Fields that can be updated by the member
-    const fieldsToUpdate = {
-      loanType: req.body.loanType,
-      amount: req.body.amount,
-      term: req.body.term,
-      purpose: req.body.purpose,
-      collateral: req.body.collateral,
-      guarantors: req.body.guarantors,
-      documents: req.body.documents
-    };
-    
-    loan = await Loan.findByIdAndUpdate(req.params.id, fieldsToUpdate, {
-      new: true,
-      runValidators: true
-    });
-    
-    res.status(200).json({
-      success: true,
-      data: loan
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-// @desc    Review loan application (Admin only)
-// @route   PUT /api/loans/:id/review
-// @access  Private/Admin
-exports.reviewLoan = async (req, res, next) => {
-  try {
-    const { status, interestRate, approvalNotes } = req.body;
-    
-    const loan = await Loan.findById(req.params.id);
-    
-    if (!loan) {
-      return res.status(404).json({
-        success: false,
-        error: 'Loan not found'
-      });
-    }
-    
-    // Update the loan status
-    loan.status = status;
-    
-    if (status === 'approved') {
-      loan.approvalDate = Date.now();
-      loan.interestRate = interestRate || loan.interestRate;
-      
-      // Generate repayment schedule
-      loan.repaymentSchedule = generateRepaymentSchedule(
-        loan.amount,
-        loan.interestRate,
-        loan.term
-      );
-    }
-    
-    await loan.save();
-    
-    res.status(200).json({
-      success: true,
-      data: loan
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-// @desc    Disburse loan (Admin only)
-// @route   PUT /api/loans/:id/disburse
-// @access  Private/Admin
-exports.disburseLoan = async (req, res, next) => {
-  try {
-    const loan = await Loan.findById(req.params.id);
-    
-    if (!loan) {
-      return res.status(404).json({
-        success: false,
-        error: 'Loan not found'
-      });
-    }
-    
-    // Make sure loan is approved
-    if (loan.status !== 'approved') {
-      return res.status(400).json({
-        success: false,
-        error: 'Only approved loans can be disbursed'
-      });
-    }
-    
-    // Update loan status
-    loan.status = 'disbursed';
-    loan.disbursementDate = Date.now();
-    
-    await loan.save();
-    
-    // Create transaction for loan disbursement
-    await Transaction.create({
-      member: loan.member,
-      transactionType: 'loan-disbursement',
-      amount: loan.amount,
-      reference: `LOAN-DISB-${loan._id}`,
-      relatedLoan: loan._id,
-      paymentMethod: req.body.paymentMethod,
-      status: 'completed',
-      description: `Loan disbursement for ${loan.loanType} loan`
-    });
-    
-    res.status(200).json({
-      success: true,
-      data: loan
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-// @desc    Record loan repayment
+// @desc    Process loan repayment
 // @route   POST /api/loans/:id/repayment
 // @access  Private
-exports.recordRepayment = async (req, res, next) => {
+exports.processRepayment = async (req, res, next) => {
   try {
-    const { amount, installmentNumber, paymentMethod, transactionReference } = req.body;
-    
+    const { installmentNumber, amount, paymentMethod, transactionReference } =
+      req.body;
+
     const loan = await Loan.findById(req.params.id);
-    
+
     if (!loan) {
       return res.status(404).json({
         success: false,
-        error: 'Loan not found'
+        error: "Loan not found",
       });
     }
-    
-    // Ensure the loan belongs to the member
-    if (loan.member.toString() !== req.member.id && req.member.role !== 'admin') {
+
+    // Make sure user owns the loan
+    if (
+      loan.member.toString() !== req.member.id &&
+      req.member.role !== "admin"
+    ) {
       return res.status(401).json({
         success: false,
-        error: 'Not authorized to access this resource'
+        error: "Not authorized to access this resource",
       });
     }
-    
-    // Check if loan is disbursed or in repaying status
-    if (loan.status !== 'disbursed' && loan.status !== 'repaying') {
+
+    // Check if loan is disbursed
+    if (loan.status !== "disbursed" && loan.status !== "repaying") {
       return res.status(400).json({
         success: false,
-        error: 'Can only repay disbursed or repaying loans'
+        error: "Cannot repay a loan that has not been disbursed",
       });
     }
-    
-    // Update loan status if first repayment
-    if (loan.status === 'disbursed') {
-      loan.status = 'repaying';
-    }
-    
+
     // Find the installment
-    if (loan.repaymentSchedule.length <= installmentNumber - 1) {
+    const installmentIndex = loan.repaymentSchedule.findIndex(
+      (inst) => inst.installmentNumber === parseInt(installmentNumber)
+    );
+
+    if (installmentIndex === -1) {
       return res.status(400).json({
         success: false,
-        error: 'Invalid installment number'
+        error: "Installment not found",
       });
     }
-    
-    const installment = loan.repaymentSchedule[installmentNumber - 1];
-    
-    // Update the installment
-    installment.paidAmount = amount;
-    installment.paidDate = Date.now();
-    installment.status = amount >= installment.amount ? 'paid' : 'pending';
-    
-    // Check if loan is fully paid
-    const isFullyPaid = loan.repaymentSchedule.every(
-      installment => installment.status === 'paid'
-    );
-    
-    if (isFullyPaid) {
-      loan.status = 'fully-paid';
+
+    const installment = loan.repaymentSchedule[installmentIndex];
+
+    // Check if installment is already paid
+    if (installment.status === "paid") {
+      return res.status(400).json({
+        success: false,
+        error: "This installment has already been paid",
+      });
     }
-    
+
+    // Update installment
+    installment.paidAmount = parseFloat(amount);
+    installment.status = "paid";
+    installment.paymentDate = Date.now();
+
+    loan.repaymentSchedule[installmentIndex] = installment;
+
+    // Update loan status
+    if (loan.status === "disbursed") {
+      loan.status = "repaying";
+    }
+
+    // Check if all installments are paid
+    const allPaid = loan.repaymentSchedule.every(
+      (inst) => inst.status === "paid"
+    );
+    if (allPaid) {
+      loan.status = "fully-paid";
+    }
+
     await loan.save();
-    
+
     // Create transaction record
     await Transaction.create({
-      member: loan.member,
-      transactionType: 'loan-repayment',
-      amount,
-      reference: transactionReference || `LOAN-REP-${loan._id}-${installmentNumber}`,
+      member: req.member.id,
+      transactionType: "loan-repayment",
+      amount: parseFloat(amount),
+      reference: transactionReference,
       relatedLoan: loan._id,
-      paymentMethod,
-      status: 'completed',
-      description: `Loan repayment for installment #${installmentNumber}`
+      status: "completed",
+      description: `Loan repayment - Installment #${installmentNumber}`,
     });
-    
+
     res.status(200).json({
       success: true,
       data: {
         loan,
-        paidInstallment: installment
-      }
+        message: "Payment processed successfully",
+      },
     });
   } catch (err) {
     next(err);
   }
 };
 
-// @desc    Get all loans (Admin only)
-// @route   GET /api/loans/all
+// @desc    Get all loan applications (admin only)
+// @route   GET /api/loans/applications
 // @access  Private/Admin
-exports.getAllLoans = async (req, res, next) => {
+exports.getAllLoanApplications = async (req, res, next) => {
   try {
-    const loans = await Loan.find().populate('member', 'firstName lastName email');
-    
+    // Get query parameters for filtering
+    const status = req.query.status;
+    const loanType = req.query.type;
+
+    // Build query
+    let query = {};
+
+    if (status) {
+      query.status = status;
+    }
+
+    if (loanType) {
+      query.loanType = loanType;
+    }
+
+    const loans = await Loan.find(query)
+      .populate({
+        path: "member",
+        select: "firstName lastName email phone nationalId",
+      })
+      .sort({ applicationDate: -1 });
+
     res.status(200).json({
       success: true,
       count: loans.length,
-      data: loans
+      data: loans,
     });
   } catch (err) {
     next(err);
   }
 };
 
-// @desc    Get loan statistics (Admin only)
+// @desc    Review loan application (admin only)
+// @route   PUT /api/loans/:id/review
+// @access  Private/Admin
+exports.reviewLoanApplication = async (req, res, next) => {
+  try {
+    const { status, rejectionReason } = req.body;
+
+    const loan = await Loan.findById(req.params.id);
+
+    if (!loan) {
+      return res.status(404).json({
+        success: false,
+        error: "Loan not found",
+      });
+    }
+
+    // Update loan application status
+    loan.status = status;
+    loan.reviewedBy = req.member.id;
+
+    if (status === "approved") {
+      loan.approvalDate = Date.now();
+    } else if (status === "rejected") {
+      loan.rejectionReason = rejectionReason;
+    }
+
+    await loan.save();
+
+    res.status(200).json({
+      success: true,
+      data: loan,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Disburse loan (admin only)
+// @route   PUT /api/loans/:id/disburse
+// @access  Private/Admin
+exports.disburseLoan = async (req, res, next) => {
+  try {
+    const { disbursementMethod, transactionReference } = req.body;
+
+    const loan = await Loan.findById(req.params.id);
+
+    if (!loan) {
+      return res.status(404).json({
+        success: false,
+        error: "Loan not found",
+      });
+    }
+
+    // Check if loan is approved
+    if (loan.status !== "approved") {
+      return res.status(400).json({
+        success: false,
+        error: "Only approved loans can be disbursed",
+      });
+    }
+
+    // Update loan status
+    loan.status = "disbursed";
+    loan.disbursementDate = Date.now();
+
+    await loan.save();
+
+    // Create transaction record for disbursement
+    await Transaction.create({
+      member: loan.member,
+      transactionType: "loan-disbursement",
+      amount: loan.amount,
+      reference: transactionReference || `DISB-${loan._id}`,
+      relatedLoan: loan._id,
+      paymentMethod: disbursementMethod || "bank-transfer",
+      status: "completed",
+      description: `Loan disbursement - ${loan.loanType} - ${loan.purpose}`,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: loan,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Get loan statistics (admin only)
 // @route   GET /api/loans/stats
 // @access  Private/Admin
 exports.getLoanStats = async (req, res, next) => {
   try {
-    // Get all loans
-    const loans = await Loan.find();
-    
-    // Calculate total loans amount
-    const totalLoansAmount = loans.reduce((total, loan) => {
-      if (loan.status === 'disbursed' || loan.status === 'repaying' || loan.status === 'fully-paid') {
-        return total + loan.amount;
-      }
-      return total;
-    }, 0);
-    
-    // Count loans by status
-    const loansByStatus = {
-      applied: 0,
-      'under-review': 0,
-      approved: 0,
-      rejected: 0,
-      disbursed: 0,
-      repaying: 0,
-      'fully-paid': 0,
-      defaulted: 0
-    };
-    
-    loans.forEach(loan => {
-      loansByStatus[loan.status]++;
+    // Total loans disbursed
+    const totalDisbursed = await Loan.aggregate([
+      { $match: { status: { $in: ["disbursed", "repaying", "fully-paid"] } } },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
+
+    // Active loans
+    const activeLoans = await Loan.aggregate([
+      { $match: { status: { $in: ["disbursed", "repaying"] } } },
+      { $group: { _id: null, count: { $sum: 1 }, total: { $sum: "$amount" } } },
+    ]);
+
+    // Loans by type
+    const loansByType = await Loan.aggregate([
+      { $match: { status: { $in: ["disbursed", "repaying", "fully-paid"] } } },
+      {
+        $group: {
+          _id: "$loanType",
+          count: { $sum: 1 },
+          amount: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    // Pending applications
+    const pendingApplications = await Loan.countDocuments({
+      status: { $in: ["applied", "under-review"] },
     });
-    
-    // Count loans by type
-    const loansByType = {
-      seed: 0,
-      equipment: 0,
-      fertilizer: 0,
-      general: 0,
-      emergency: 0
-    };
-    
-    loans.forEach(loan => {
-      loansByType[loan.loanType]++;
-    });
-    
-    // Calculate average loan amount
-    const activeLoanCount = loans.filter(
-      loan => loan.status === 'disbursed' || loan.status === 'repaying'
-    ).length;
-    
-    const averageLoanAmount = activeLoanCount > 0 
-      ? totalLoansAmount / activeLoanCount 
-      : 0;
-    
+
     res.status(200).json({
       success: true,
       data: {
-        totalLoansAmount,
-        activeLoanCount,
-        averageLoanAmount,
-        loansByStatus,
-        loansByType
-      }
+        totalDisbursed: totalDisbursed.length > 0 ? totalDisbursed[0].total : 0,
+        activeLoans: {
+          count: activeLoans.length > 0 ? activeLoans[0].count : 0,
+          amount: activeLoans.length > 0 ? activeLoans[0].total : 0,
+        },
+        loansByType,
+        pendingApplications,
+      },
     });
   } catch (err) {
     next(err);
   }
 };
 
-// Helper function to generate repayment schedule
-const generateRepaymentSchedule = (principal, interestRate, term) => {
-  const monthlyInterestRate = interestRate / 100 / 12;
-  const monthlyPayment = 
-    (principal * monthlyInterestRate) / 
-    (1 - Math.pow(1 + monthlyInterestRate, -term));
-  
-  const schedule = [];
-  
-  let remainingPrincipal = principal;
-  
-  for (let i = 1; i <= term; i++) {
-    const interestPayment = remainingPrincipal * monthlyInterestRate;
-    const principalPayment = monthlyPayment - interestPayment;
-    
-    remainingPrincipal -= principalPayment;
-    
-    // In case of rounding errors for the last payment
-    if (i === term) {
-      schedule.push({
-        installmentNumber: i,
-        dueDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000), // Approximately one month
-        amount: principalPayment + interestPayment + remainingPrincipal,
-        principal: principalPayment + remainingPrincipal,
-        interest: interestPayment,
-        status: 'pending'
-      });
-    } else {
-      schedule.push({
-        installmentNumber: i,
-        dueDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000), // Approximately one month
-        amount: monthlyPayment,
-        principal: principalPayment,
-        interest: interestPayment,
-        status: 'pending'
+// @desc    Process mobile money payment for loan
+// @route   POST /api/loans/:id/mobile-money
+// @access  Private
+exports.processMobileMoneyPayment = async (req, res, next) => {
+  try {
+    const { phoneNumber, amount, installmentNumber } = req.body;
+
+    const loan = await Loan.findById(req.params.id);
+
+    if (!loan) {
+      return res.status(404).json({
+        success: false,
+        error: "Loan not found",
       });
     }
+
+    // Make sure user owns the loan
+    if (loan.member.toString() !== req.member.id) {
+      return res.status(401).json({
+        success: false,
+        error: "Not authorized to access this resource",
+      });
+    }
+
+    // In a real application, this would integrate with a mobile money API
+    // Here we'll simulate a successful mobile money transaction
+
+    // Generate a transaction reference
+    const transactionReference = `MM-${Date.now()}-${Math.floor(
+      Math.random() * 10000
+    )}`;
+
+    // Find the installment
+    const installmentIndex = loan.repaymentSchedule.findIndex(
+      (inst) => inst.installmentNumber === parseInt(installmentNumber)
+    );
+
+    if (installmentIndex === -1) {
+      return res.status(400).json({
+        success: false,
+        error: "Installment not found",
+      });
+    }
+
+    // Update installment
+    const installment = loan.repaymentSchedule[installmentIndex];
+    installment.paidAmount = parseFloat(amount);
+    installment.status = "paid";
+    installment.paymentDate = Date.now();
+
+    loan.repaymentSchedule[installmentIndex] = installment;
+
+    // Update loan status
+    if (loan.status === "disbursed") {
+      loan.status = "repaying";
+    }
+
+    // Check if all installments are paid
+    const allPaid = loan.repaymentSchedule.every(
+      (inst) => inst.status === "paid"
+    );
+    if (allPaid) {
+      loan.status = "fully-paid";
+    }
+
+    await loan.save();
+
+    // Create transaction record
+    await Transaction.create({
+      member: req.member.id,
+      transactionType: "loan-repayment",
+      amount: parseFloat(amount),
+      reference: transactionReference,
+      relatedLoan: loan._id,
+      paymentMethod: "mobile-money",
+      externalReference: transactionReference,
+      status: "completed",
+      description: `Mobile money loan repayment - Installment #${installmentNumber}`,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        loan,
+        transactionReference,
+        message: "Mobile money payment processed successfully",
+      },
+    });
+  } catch (err) {
+    next(err);
   }
-  
-  return schedule;
 };

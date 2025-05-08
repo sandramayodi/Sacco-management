@@ -61,6 +61,7 @@ app.use("/api/financial", financialRoutes);
 app.use("/api/agriculture", agricultureRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/admin", adminRoutes);
+
 // app.use('/api/expert', expertRoutes);
 // For any other route, serve the frontend
 app.get("*", (req, res) => {
